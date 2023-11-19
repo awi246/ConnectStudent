@@ -8,8 +8,8 @@ function main() {
   return (
     <div className='main'>
         <Header/>
-        <div className="quora__contents">
-        <div className="quora__content">
+        <div className="contents">
+        <div className="content">
           <Sidebar />
           <Feed />
           <Widget />

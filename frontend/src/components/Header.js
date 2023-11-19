@@ -8,7 +8,7 @@ import {
   NotificationsOutlined,
   PeopleAltOutlined,
   Search,
-  ExpandMore,
+  // ExpandMore,
 } from "@material-ui/icons";
 import './css/Header.css'
 
