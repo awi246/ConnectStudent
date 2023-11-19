@@ -1,12 +1,13 @@
 import React from 'react'
-// import { Avatar } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
+import './css/Box.css'
 function Box() {
   return (
-    <div className="quoraBox">
-    <div className="quoraBox__info">
-      {/* <Avatar src={user?.photo} /> */}
+    <div className="Box">
+    <div className="Box__info">
+      <Avatar  />
     </div>
-    <div className="quoraBox__quora">
+    <div className="Box__question">
       <h5>What is your question or link?</h5>
     </div>
   </div>

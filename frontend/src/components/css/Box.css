@@ -1,4 +1,4 @@
-/* .quoraBox {
+.Box {
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -9,23 +9,23 @@
   max-width: 700px;
 }
 
-.quoraBox:hover {
+.Box:hover {
   border: 1px solid rgb(175, 175, 175);
 }
 
-.quoraBox__info {
+.Box__info {
   display: flex;
   align-items: center;
 }
 
-.quoraBox__info > h5 {
+.Box__info > h5 {
   color: rgb(129, 129, 129);
   font-weight: bold;
   margin-left: 10px;
   font-size: large;
 }
 
-.quoraBox__quora {
+.Box__question {
   display: flex;
   margin-top: 8px;
-} */
+}
