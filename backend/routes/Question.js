@@ -58,8 +58,9 @@ router.get("/", async (req, res) => {
       });
   } catch (e) {
     res.status(500).send({
-      status: false, 
+      status: false,
       message: "Unexpected error",
+      
     });
   }
 });

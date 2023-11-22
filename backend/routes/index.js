@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
   res.send("This api is reserved for connectStudents");
 });
 
+
 router.use("/questions", questionRouter);
 router.use("/answers", answerRouter);
 
