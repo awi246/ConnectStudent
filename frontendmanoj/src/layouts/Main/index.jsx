@@ -8,7 +8,7 @@ const Main = () => {
       <div className='w-full'>
           <Header />
           <div className="bg-gray-100 min-h-screen p-12">
-              <div className="flex flex-row justify-between w-[70vw]">
+              <div className="flex flex-row justify-between">
                   <Sidebar />
                   <Feed />
                   <Widget />
