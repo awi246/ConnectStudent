@@ -120,9 +120,9 @@ function Header ()
                         <h5>Share Link</h5>
                     </div>
                     <div className="modal__info">
-                        <RxAvatar className="avatar" />
+                        <RxAvatar className="avatar text-2xl" />
                         <div className="modal__scope">
-                            <GoPeople />
+                            <GoPeople className="text-xl" />
                             <p>Public</p>
                             <MdExpandMore />
                         </div>
@@ -132,6 +132,7 @@ function Header ()
                             value={ question }
                             onChange={ ( e ) => setQuestion( e.target.value ) }
                             type=" text"
+                            className="p-3 mb-5"
                             placeholder="Start your question with 'What', 'How', 'Why', etc. "
                         />
                         <div
