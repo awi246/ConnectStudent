@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+*{
+    border: 2px solid red;
+} */
+
+.answermodal, .addQuestionModal {
+    border-radius: 20px;
+}
