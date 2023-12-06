@@ -6,6 +6,7 @@ import { useState } from "react";
 import ReactQuill from "react-quill";
 import { Modal } from "react-responsive-modal";
 import axios from "axios";
+import { Tooltip, Button } from "@material-tailwind/react";
 
 //assets / icons
 import { IoArrowDown, IoArrowUp, IoClose } from "react-icons/io5";
@@ -149,16 +150,41 @@ function Post ( { post } )
 
       </div>
       <div className="post__footer">
-        <div className="flex items-center gap-4 text-2xl w-full justify-between">
+        <div className="flex items-center gap-4 text-2xl w-full justify-between mt-6">
           <div className="post__footerAction space-x-6">
-            <IoArrowUp />
-            <IoArrowDown />
+            <Tooltip content="Up vote">
+              <p>
+                <IoArrowUp />
+              </p>
+            </Tooltip>
+            <Tooltip content="Down vote">
+              <p>
+                <IoArrowDown />
+              </p>
+            </Tooltip>
           </div>
-          <BsRepeat />
-          <CiChat2 />
+          <Tooltip content="Repeat">
+            <p>
+              <BsRepeat />
+            </p>
+          </Tooltip>
+          <Tooltip content="Comment">
+            <p>
+              <CiChat2 />
+            </p>
+          </Tooltip>
+
           <div className="post__footerLeft flex items-center gap-2">
-            <CiShare2 />
-            <FiMoreHorizontal />
+            <Tooltip content="Share">
+              <p>
+                <CiShare2 />
+              </p>
+            </Tooltip>
+            <Tooltip content="View More">
+              <p>
+                <FiMoreHorizontal />
+              </p>
+            </Tooltip>
           </div>
         </div>
       </div>
