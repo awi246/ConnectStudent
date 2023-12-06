@@ -152,12 +152,12 @@ function Post ( { post } )
       <div className="post__footer">
         <div className="flex items-center gap-4 text-2xl w-full justify-between mt-6">
           <div className="post__footerAction space-x-6">
-            <Tooltip content="Upvote">
+            <Tooltip content="Up vote">
               <p>
                 <IoArrowUp />
               </p>
             </Tooltip>
-            <Tooltip content="Downvote">
+            <Tooltip content="Down vote">
               <p>
                 <IoArrowDown />
               </p>
