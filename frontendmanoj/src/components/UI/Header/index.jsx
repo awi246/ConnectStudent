@@ -41,7 +41,7 @@ function Header ()
 
             };
             await axios
-                .post( "/api/questions", body, config )
+            .post( "/api/questions", body, config )
                 .then( ( res ) =>
                 {
                     console.log( res.data );
@@ -101,6 +101,7 @@ function Header ()
                     open={ isModalOpen }
                     closeIcon={ Close }
                     classNames={ {
+                        modal:'addQuestionModal',
                         modalAnimationIn: 'customEnterModalAnimation',
                         modalAnimationOut: 'customLeaveModalAnimation',
                     } }
