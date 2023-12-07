@@ -7,9 +7,7 @@ function Box() {
     <div className="Box__info">
       <Avatar  />
     </div>
-    <div className="Box__question">
-      {/* <h5>What is your question or link?</h5> */}
-    </div>
+   
   </div>
   )
 }
