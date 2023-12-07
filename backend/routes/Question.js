@@ -11,6 +11,7 @@ router.post("/", async (req, res) => {
       .create({
         questionName: req.body.questionName,
         questionUrl: req.body.questionUrl,
+        questionSubject: req.body.questionSubject,
         user: req.body.user,
       })
       .then(() => {
