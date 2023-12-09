@@ -16,6 +16,10 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { BsRepeat } from "react-icons/bs";
 import { CiShare2 } from "react-icons/ci";
 import BrokenImg from "../../../assets/brokeImg.png";
+import ReactHtmlParser from "html-react-parser";
+import ReactTimeAgo from "react-time-ago";
+
+
 
 //styles
 import "../../../styles/Post.css";
@@ -24,14 +28,13 @@ import "react-quill/dist/quill.snow.css";
 
 
 //services
-// import { useSelector } from "react-redux";
-// import { selectUser } from "../feature/userSlice";
-function LastSeen ( { date } )
-{
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../feature/userSlice";
+function LastSeen({ date }) {
   return (
-    <span>
-      { new Date().getFullYear() }-{ ( new Date().getMonth() + 1 ).toString().padStart( 2, '0' ) }-{ new Date().getDate().toString().padStart( 2, '0' ) } { new Date().getHours().toString().padStart( 2, '0' ) }:{ new Date().getMinutes().toString().padStart( 2, '0' ) }:{ new Date().getSeconds().toString().padStart( 2, '0' ) }
-    </span>
+    <div>
+      <ReactTimeAgo date={date} locale="en-US" timeStyle="round" />
+    </div>
   );
 }
 function Post ( { post } )
@@ -41,7 +44,7 @@ function Post ( { post } )
   const [ answer, setAnswer ] = useState( "" );
   const Close = <IoClose />;
 
-  //   const user = useSelector(selectUser);
+    const user = useSelector(selectUser);
 
   const handleQuill = ( value ) =>
   {
