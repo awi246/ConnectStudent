@@ -3,7 +3,7 @@ const router = express.Router();
 
 const questionRouter = require("./Question");
 const answerRouter = require("./Answer");
-const votesRouter = require("./Votes"); 
+const votesRouter = require("./Vote"); 
 
 router.get("/", (req, res) => {
   res.send("This API is reserved for connectStudents");

@@ -1,6 +1,6 @@
 import  { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./App.css";
+// import "./App.css";
 import Login from "./components/auth/login";
 import Main from "./layouts/Main";
 import { login, selectUser } from "./feature/userSlice";
