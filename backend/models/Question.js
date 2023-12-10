@@ -13,6 +13,10 @@ const QuestionSchema = new mongoose.Schema({
     ref: "Answers",
   },
   user: Object,
+  votes: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Votes",
+  },
 });
 
 module.exports = mongoose.model("Questions", QuestionSchema);
