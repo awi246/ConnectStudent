@@ -5,8 +5,8 @@ const url ="mongodb+srv://awiral1234:bIltesX2frwwbCiG@cluster.uydjzsl.mongodb.ne
 module.exports.connect = () => {
     mongoose
       .connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+        // useNewUrlParser: true,
+        // useUnifiedTopology: true,
       })
       .then(() => {
         console.log("MongoDB connected successfully");

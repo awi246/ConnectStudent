@@ -1,4 +1,4 @@
-import Sidebar from '../RightSide';
+import Sidebar from '../SideBar';
 import Widget from '../RightSide';
 import Feed from '../../components/UI/Feed/feed';
 import Header from '../../components/UI/Header/header';

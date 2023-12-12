@@ -235,3 +235,9 @@
     transform: scale(0.2);
   }
 }
+
+.logoutModal {
+  border-radius: 20px;
+  height: fit-content;
+
+}
