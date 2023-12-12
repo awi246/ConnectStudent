@@ -22,7 +22,7 @@ function App() {
             uid: authUser.uid,
           })
         );
-        console.log("AuthUser", authUser);
+        // console.log("AuthUser", authUser);
       }
     });
   }, [dispatch]);
