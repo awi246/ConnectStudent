@@ -1,44 +1,40 @@
 import { IoMdAdd } from "react-icons/io";
 import "../../styles/SidebarOptions.css";
-
-function SidebarOptions() {
+import image from '../../assets/image.jpeg';
+function SidebarOptions ()
+{
   return (
     <div className="sidebarOptions">
-  
+
 
       <div className="sidebarOption">
         <img
- src="https://media.licdn.com/dms/image/C4D0BAQHJvBzaTd8Bvw/company-logo_400_400/0/1670131210535?e=1707350400&v=beta&t=GzZDgZA3WMxpio_osxGeU5IwXLGs7wG9mOOUWqvdyUw"          alt=""
-        />
+          src={ image } />
         <p>Microprocessor</p>
       </div>
 
       <div className="sidebarOption">
         <img
- src="https://media.licdn.com/dms/image/C4D0BAQHJvBzaTd8Bvw/company-logo_400_400/0/1670131210535?e=1707350400&v=beta&t=GzZDgZA3WMxpio_osxGeU5IwXLGs7wG9mOOUWqvdyUw"          alt=""
-        />
+          src={ image } />
         <p>Technology</p>
       </div>
 
       <div className="sidebarOption">
         <img
-         src="https://media.licdn.com/dms/image/C4D0BAQHJvBzaTd8Bvw/company-logo_400_400/0/1670131210535?e=1707350400&v=beta&t=GzZDgZA3WMxpio_osxGeU5IwXLGs7wG9mOOUWqvdyUw"
-          alt=""
+          src={ image } alt=""
         />
         <p>AI</p>
       </div>
       <div className="sidebarOption">
         <img
-         src="https://media.licdn.com/dms/image/C4D0BAQHJvBzaTd8Bvw/company-logo_400_400/0/1670131210535?e=1707350400&v=beta&t=GzZDgZA3WMxpio_osxGeU5IwXLGs7wG9mOOUWqvdyUw"
-          alt=""
+          src={ image } alt=""
         />
         <p>Java</p>
-        
+
       </div>
       <div className="sidebarOption">
         <img
-         src="https://media.licdn.com/dms/image/C4D0BAQHJvBzaTd8Bvw/company-logo_400_400/0/1670131210535?e=1707350400&v=beta&t=GzZDgZA3WMxpio_osxGeU5IwXLGs7wG9mOOUWqvdyUw"
-          alt=""
+          src={ image } alt=""
         />
         <p>C programming</p>
       </div>

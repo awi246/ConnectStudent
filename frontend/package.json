@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.2",
     "firebase": "^10.7.1",
+    "framer-motion": "^10.16.16",
     "html-react-parser": "^5.0.7",
     "javascript-time-ago": "^2.5.9",
     "package": "^1.0.1",
