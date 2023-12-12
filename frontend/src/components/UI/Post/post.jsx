@@ -31,11 +31,12 @@ function LastSeen ( { date } )
 
 function Post ( { post } )
 {
+  console.log("post",post);
   const [ isModalOpen, setIsModalOpen ] = useState( false );
   const [ answer, setAnswer ] = useState( "" );
   const [ voted, setVoted ] = useState( null );
-
   const user = useSelector( selectUser );
+
 
   useEffect( () =>
   {
@@ -113,8 +114,13 @@ function Post ( { post } )
     }
   };
 
-  // Sort the answers based on votes (upvotes - downvotes) in descending order
-  const sortedAnswers = post?.allAnswers?.sort( ( a, b ) => ( b.votes.upvote - b.votes.downvote ) - ( a.votes.upvote - a.votes.downvote ) );
+  const sortedAnswers = post?.allAnswers?.sort( ( a, b ) =>
+  {
+    const aVotes = a?.votes?.upvote ?? 0 - a?.votes?.downvote ?? 0;
+    const bVotes = b?.votes?.upvote ?? 0 - b?.votes?.downvote ?? 0;
+    return bVotes - aVotes;
+  } ) || [];
+
 
   return (
     <div className="post">

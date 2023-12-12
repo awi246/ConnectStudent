@@ -4,7 +4,7 @@ const router = express.Router();
 const questionDB = require("../models/Question");
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   try {
     await questionDB

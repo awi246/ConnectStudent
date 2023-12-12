@@ -61,7 +61,7 @@ function Header ()
       .post( "/api/questions", body, config )
       .then( ( res ) =>
       {
-        console.log( res.data );
+        // console.log( res.data );
         alert( res.data.message );
         window.location.href = "/";
       } )
@@ -84,7 +84,7 @@ function Header ()
       .then( () =>
       {
         dispatch( logout() );
-        console.log( "Logged out" );
+        // console.log( "Logged out" );
       } )
       .catch( () =>
       {
