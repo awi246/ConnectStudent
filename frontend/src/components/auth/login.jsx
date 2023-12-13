@@ -73,10 +73,11 @@ function Login() {
           >
             <Button
               onClick={handleSubmit}
-              className="btn-login hover:bg-green-400"
+              color="red"
+              className="btn-login hover:bg-green-400 capitalize"
               size="lg"
             >
-              Login to continue
+              LOGIN WITH GOOGLE
             </Button>
           </motion.div>
         </motion.div>
