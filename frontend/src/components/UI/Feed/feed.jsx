@@ -20,9 +20,9 @@ function Feed() {
   return (
     <div className="feed">
       <Box />
-      {/* {posts.map((post, index) => (
+      {posts.map((post, index) => (
         <Post key={index} post={post} />
-      ))} */}
+      ))}
     </div>
   );
 }
