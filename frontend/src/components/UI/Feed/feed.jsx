@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "./../Box/box";
 import "./../../../styles/Feed.css";
 import Post from "./../Post/post";
@@ -20,9 +20,9 @@ function Feed() {
   return (
     <div className="feed">
       <Box />
-      {posts.map((post, index) => (
+      {/* {posts.map((post, index) => (
         <Post key={index} post={post} />
-      ))}
+      ))} */}
     </div>
   );
 }
