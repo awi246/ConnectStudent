@@ -44,17 +44,25 @@ function Login() {
         animate="visible"
         variants={containerVariants}
       >
-        <motion.div className="login-content" variants={itemVariants}>
-          <motion.img
-            src="https://video-public.canva.com/VAD8lt3jPyI/v/ec7205f25c.gif"
-            alt="logo"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              transition: { type: "spring", stiffness: 200 },
-            }}
-          />
+        <motion.div
+          className="flex items-center flex-col"
+          variants={itemVariants}
+        >
+          <div className="flex">
+            <motion.img
+              src="https://video-public.canva.com/VAD8lt3jPyI/v/ec7205f25c.gif"
+              alt="logo"
+              initial={{ opacity: 0, scale: 0.5 }}
+              className="object-contain"
+              width={200}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                transition: { type: "spring", stiffness: 200 },
+              }}
+            />
+            <img src={logo} className="" width={380} />
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{
@@ -72,7 +80,6 @@ function Login() {
             </Button>
           </motion.div>
         </motion.div>
-        <img src={logo} className="" width={450} />
       </motion.div>
     </div>
   );
