@@ -164,6 +164,7 @@
 .modal__buttons {
   display: flex;
   flex-direction: column-reverse;
+  gap: 10px;
   margin-top: 10px;
   align-items: center;
 }

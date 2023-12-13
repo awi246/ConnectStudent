@@ -195,15 +195,18 @@ function Header() {
             </div>
           </div>
           <div className="modal__buttons">
-            <button
-              className="cancel hover:shadow-md"
+            <Button
+              className=""
+              color="red"
+              size="lg"
               onClick={() => setIsModalOpen(false)}
             >
               Cancel
-            </button>
+            </Button>
             <Button
               onClick={handleSubmit}
               type="submit"
+              size="lg"
               className="hover:bg-green-400"
             >
               Add Question

@@ -5,17 +5,6 @@
   background-size: cover;
   }
   
-  .login-content {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  .login-content > img {
-    width: 200px;
-    object-fit: contain;
-    margin: 20px;
-  }
   
 
   
