@@ -15,7 +15,35 @@
     font-family: 'Poppins', sans-serif;
 
 }
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    cursor: pointer;
+    scroll-behavior: smooth;
+}
+ 
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #009eb3, #B3B5BB);
+    border-radius: 5px;
+    cursor: pointer;
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #B3B5BB, #009eb3);
+    cursor: pointer;
+    scroll-behavior: smooth;
+}
 
 .answermodal, .addQuestionModal {
     border-radius: 20px;
+    width: 100%;
+}
+
+.addQuestionModal::-webkit-scrollbar {
+    display: none;
 }

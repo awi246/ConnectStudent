@@ -6,18 +6,18 @@ import axios from "axios";
 
 //icons
 import { FiHome } from "react-icons/fi";
-import
-{
+import {
   MdOutlineAssignmentTurnedIn,
   MdOutlineFeaturedPlayList,
 } from "react-icons/md";
 import { GoPeople } from "react-icons/go";
-import { RxAvatar } from "react-icons/rx";
+// import { RxAvatar } from "react-icons/rx";
 import { IoNotificationsOutline, IoCloseOutline } from "react-icons/io5";
 import { SlLogout } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
 import { Modal } from "react-responsive-modal";
 import logo from "../../../assets/smalllogo.ico";
+import alternateImg from "../../../assets/brokeImg.png";
 
 //styles
 import "../../../styles/Header.css";
@@ -27,15 +27,14 @@ import { logout, selectUser } from "../../../feature/userSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 
-function Header ()
-{
-  const [ isModalOpen, setIsModalOpen ] = useState( false );
-  const [ logoutModal, setLogoutModal ] = useState( false );
-  const [ inputUrl, setInputUrl ] = useState( "" );
-  const [ question, setQuestion ] = useState( "" );
-  const [ selectedSubject, setSelectedSubject ] = useState( "" );
+function Header() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false);
+  const [inputUrl, setInputUrl] = useState("");
+  const [question, setQuestion] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
   const dispatch = useDispatch();
-  const user = useSelector( selectUser );
+  const user = useSelector(selectUser);
   const Close = <IoCloseOutline />;
   const subjects = [
     "Software Project Manager",
@@ -44,8 +43,7 @@ function Header ()
     "Data Warehouse",
     "Data Mining",
   ];
-  const handleSubmit = async () =>
-  {
+  const handleSubmit = async () => {
     // if (question !== "") {
     const config = {
       headers: {
@@ -58,46 +56,39 @@ function Header ()
       questionSubject: selectedSubject,
     };
     await axios
-      .post( "/api/questions", body, config )
-      .then( ( res ) =>
-      {
+      .post("/api/questions", body, config)
+      .then((res) => {
         // console.log( res.data );
-        alert( res.data.message );
+        alert(res.data.message);
         window.location.href = "/";
-      } )
-      .catch( ( e ) =>
-      {
-        console.log( e );
-        alert( "Error in adding question" );
-      } );
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("Error in adding question");
+      });
     // }
   };
 
-  const openLogoutModal = () =>
-  {
-    setLogoutModal( true );
+  const openLogoutModal = () => {
+    setLogoutModal(true);
   };
 
-  const handleLogout = () =>
-  {
-    signOut( auth )
-      .then( () =>
-      {
-        dispatch( logout() );
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(logout());
         // console.log( "Logged out" );
-      } )
-      .catch( () =>
-      {
-        console.log( "error in logout" );
-      } );
+      })
+      .catch(() => {
+        console.log("error in logout");
+      });
   };
-
 
   return (
-    <div className="Header">
+    <div className="Header shadow-2xl">
       <div className="flex flex-row items-center gap-8">
         <div>
-          <img src={ logo } alt="logo" width={ 56 } />
+          <img src={logo} alt="logo" width={56} />
         </div>
         <div className="flex flex-row gap-11">
           <FiHome className="text-2xl cursor-pointer" />
@@ -108,136 +99,151 @@ function Header ()
         </div>
         <div className="Header__input">
           <CiSearch />
-          <input type="text" placeholder="Search questions" />
+          <input type="text" placeholder="Search questions..." />
         </div>
         <div className="flex flex-row items-center gap-6">
           <Button
             color="blue"
             className="hover:bg-green-300"
-            onClick={ () => setIsModalOpen( true ) }
+            onClick={() => setIsModalOpen(true)}
           >
             Add Question
           </Button>
-          <SlLogout onClick={ openLogoutModal } src={ user?.photo } size={ 25 } className="cursor-pointer hover:text-red-300" />
+          <SlLogout
+            onClick={openLogoutModal}
+            src={user?.photo}
+            size={25}
+            className="cursor-pointer hover:text-red-300"
+          />
         </div>
         <Modal
-          open={ isModalOpen }
-          closeIcon={ Close }
-          classNames={ {
+          open={isModalOpen}
+          closeIcon={Close}
+          classNames={{
             modal: "addQuestionModal",
             modalAnimationIn: "customEnterModalAnimation",
             modalAnimationOut: "customLeaveModalAnimation",
-          } }
-          animationDuration={ 800 }
-          onClose={ () => setIsModalOpen( false ) }
+          }}
+          animationDuration={800}
+          onClose={() => setIsModalOpen(false)}
           closeOnEsc
           center
-          closeOnOverlayClick={ false }
-          styles={ {
+          closeOnOverlayClick={false}
+          styles={{
             overlay: {
               height: "auto",
             },
-          } }
+          }}
         >
           <div className="modal__title">
             <h5>Add Question</h5>
             <h5>Share Link</h5>
           </div>
 
-          <div className="modal__Field">
-            <div className="modal__info">
-              <RxAvatar className="avatar text-2xl" />
-              <div className="modal__scope">
-                <label htmlFor="subjects">Select Subject:</label>
+          <div className="">
+            <div className="">
+              {/* <RxAvatar size={40}/> */}
+              <div className="modal__scope w-full flex justify-between p-3">
+                <label htmlFor="subjects" className="font-medium">
+                  Select Subject:
+                </label>
                 <select
                   id="subjects"
-                  value={ selectedSubject }
-                  onChange={ ( e ) => setSelectedSubject( e.target.value ) }
+                  value={selectedSubject}
+                  className="font-medium"
+                  onChange={(e) => setSelectedSubject(e.target.value)}
                 >
-                  <option value="">Select...</option>
-                  { subjects.map( ( subject ) => (
-                    <option key={ subject } value={ subject }>
-                      { subject }
+                  <option value="">Please choose subject</option>
+                  {subjects.map((subject) => (
+                    <option key={subject} value={subject}>
+                      {subject}
                     </option>
-                  ) ) }
+                  ))}
                 </select>
               </div>
             </div>
             <input
-              value={ question }
-              onChange={ ( e ) => setQuestion( e.target.value ) }
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
               type=" text"
-              className="p-3 mb-5"
+              className="p-3 mb-5 mt-4 shadow-lg border rounded-md w-full"
               placeholder="Start your question with 'What', 'How', 'Why', etc. "
             />
             <div
-              style={ {
+              style={{
                 display: "flex",
                 flexDirection: "column",
-              } }
+              }}
             >
               <input
                 type="text"
-                value={ inputUrl }
-                onChange={ ( e ) => setInputUrl( e.target.value ) }
-                style={ {
-                  margin: "5px 0",
-                  border: "1px solid lightgray",
-                  padding: "10px",
-                  outline: "2px solid #000",
-                } }
-                placeholder="Optional: inclue a link that gives context"
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)}
+                className="p-3 mb-5 mt-4 shadow-lg border rounded-md w-full"
+                placeholder="Optional: Inclue a link that gives context or the image"
               />
-              { inputUrl !== "" && (
+              {inputUrl !== "" && (
                 <img
-                  style={ {
-                    height: "40vh",
-                    objectFit: "contain",
-                  } }
-                  src={ inputUrl }
+                  width={300}
+                  src={inputUrl}
                   alt="displayimage"
+                  onError={(e) => {
+                    e.target.src = alternateImg;
+                  }}
                 />
-              ) }
+              )}
             </div>
           </div>
           <div className="modal__buttons">
-            <button className="cancle" onClick={ () => setIsModalOpen( false ) }>
+            <button
+              className="cancel hover:shadow-md"
+              onClick={() => setIsModalOpen(false)}
+            >
               Cancel
             </button>
-            <Button onClick={ handleSubmit } type="submit">
+            <Button
+              onClick={handleSubmit}
+              type="submit"
+              className="hover:bg-green-400"
+            >
               Add Question
             </Button>
           </div>
         </Modal>
         <Modal
-          open={ logoutModal }
-          closeIcon={ Close }
-          classNames={ {
-            modal: 'logoutModal',
-            overlayAnimationIn: 'customEnterOverlayAnimation',
-            overlayAnimationOut: 'customLeaveOverlayAnimation',
-            modalAnimationIn: 'customEnterModalAnimation',
-            modalAnimationOut: 'customLeaveModalAnimation',
-          } }
-          animationDuration={ 400 }
-          onClose={ () => setLogoutModal( false ) }
+          open={logoutModal}
+          closeIcon={Close}
+          classNames={{
+            modal: "logoutModal",
+            overlayAnimationIn: "customEnterOverlayAnimation",
+            overlayAnimationOut: "customLeaveOverlayAnimation",
+            modalAnimationIn: "customEnterModalAnimation",
+            modalAnimationOut: "customLeaveModalAnimation",
+          }}
+          animationDuration={400}
+          onClose={() => setLogoutModal(false)}
           closeOnEsc
           center
-          closeOnOverlayClick={ false }
-          styles={ {
+          closeOnOverlayClick={false}
+          styles={{
             overlay: {
               height: "auto",
             },
-          } }
+          }}
         >
           <div className="flex flex-col gap-8 justify-center items-center mt-4">
             <span className="text-xl">Are you sure you want to logout</span>
             <div className="flex gap-10">
-              <Button
-                onClick={ handleLogout }
-                color="green">Confirm
+              <Button onClick={handleLogout} size="lg" color="green">
+                Confirm
               </Button>
-              <Button onClick={ () => setLogoutModal( false ) } color="red">Cancel</Button>
+              <Button
+                onClick={() => setLogoutModal(false)}
+                size="lg"
+                color="red"
+              >
+                Cancel
+              </Button>
             </div>
           </div>
         </Modal>
