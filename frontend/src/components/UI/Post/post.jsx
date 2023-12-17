@@ -210,13 +210,13 @@ function Post({ post }) {
                 </p>
               </Tooltip>
             </div>
-            <Tooltip content="Repeat">
+            {/* <Tooltip content="Repeat">
               <p>
                 <BsRepeat />
               </p>
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip content="Comment">
-              <p>
+              <p className="cursor-pointer"  onClick={() => setIsModalOpen(true)}>
                 <CiChat2 />
               </p>
             </Tooltip>
