@@ -51,3 +51,7 @@
 .addQuestionModal::-webkit-scrollbar {
   display: none;
 }
+::selection{
+  color: rgb(255, 136, 47);
+  
+}
