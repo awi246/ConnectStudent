@@ -35,7 +35,7 @@ router.post("/upvote", async (req, res) => {
       message: "Upvote added successfully",
     });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).send({
       status: false,
       message: "Error while processing upvote",

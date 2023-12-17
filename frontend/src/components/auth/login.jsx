@@ -28,11 +28,11 @@ function Login() {
 
   const handleSubmit = async () => {
     await signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
+      .then(() => {
+        // console.log(result);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        // console.log(error);
       });
   };
 
