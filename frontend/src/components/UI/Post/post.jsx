@@ -7,7 +7,7 @@ import { Tooltip } from "@material-tailwind/react";
 import { IoArrowDown, IoArrowUp, IoClose } from "react-icons/io5";
 import { CiChat2 } from "react-icons/ci";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { BsRepeat } from "react-icons/bs";
+// import { BsRepeat } from "react-icons/bs";
 import { CiShare2 } from "react-icons/ci";
 import BrokenImg from "../../../assets/brokeImg.png";
 import ReactHtmlParser from "html-react-parser";
@@ -35,15 +35,15 @@ function Post({ post }) {
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    // Check if the user has already voted for this post
     const checkVoteStatus = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:90/api/votes/check?questionId=${post?._id}&userId=${user?._id}`
+          `http://localhost:90/api/votes/check`,
+          { params: { questionId: post?._id, userId: user?._id } }
         );
         setVoted(response.data.voteType);
       } catch (error) {
-        // toast.error("Failed to check vote");
+        toast.error("Failed to check vote");
       }
     };
 
@@ -70,7 +70,6 @@ function Post({ post }) {
         await axios.post("http://localhost:90/api/answers", body, config);
         setIsModalOpen(false);
         toast.success("Answer added successfully");
-        // Delay execution for 3 seconds
         setTimeout(() => {
           window.location.href = "/";
         }, 3000);
@@ -83,24 +82,29 @@ function Post({ post }) {
 
   const handleVote = async (voteType) => {
     try {
+      const url = `http://localhost:90/api/votes/${voteType}`;
+
       if (voted === voteType) {
-        // If the user has already voted with the same type, remove the vote
-        await axios.delete(
-          `http://localhost:90/api/votes?questionId=${post?._id}&userId=${user?._id}`
-        );
+        await axios.delete(url, {
+          params: {
+            questionId: post?._id,
+            userId: user?._id,
+          },
+        });
         setVoted(null);
+        toast.success("Vote removed successfully");
       } else {
-        // If the user has not voted or voted with a different type, update the vote
         const voteData = {
           voteType: voteType,
           questionId: post?._id,
           user: user,
         };
-        await axios.post("http://localhost:90/api/votes", voteData);
+        await axios.post(url, voteData);
         setVoted(voteType);
+        toast.success("Vote added successfully");
       }
     } catch (error) {
-      // toast.error("Failed to vote");
+      toast.error("Failed to vote");
     }
   };
 
@@ -216,7 +220,10 @@ function Post({ post }) {
               </p>
             </Tooltip> */}
             <Tooltip content="Comment">
-              <p className="cursor-pointer"  onClick={() => setIsModalOpen(true)}>
+              <p
+                className="cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+              >
                 <CiChat2 />
               </p>
             </Tooltip>
@@ -289,7 +296,6 @@ function Post({ post }) {
                     }}
                     className="post-info"
                   >
-                    test
                     <p>{_a?.user?.userName}</p>
                     <span>
                       <LastSeen date={_a?.createdAt} />

@@ -31,7 +31,7 @@ function SidebarOptions({ onSelectOption }) {
           onSelectOption(data.data[0].name);
         }
       } catch (error) {
-        console.error("Error fetching subjects:", error);
+        // console.error("Error fetching subjects:", error);
       }
     };
 
@@ -52,21 +52,25 @@ function SidebarOptions({ onSelectOption }) {
         },
         body: JSON.stringify({ name: newSubjectName }),
       });
-
+  
       if (response.ok) {
         const newSubjectData = await response.json();
         setOptions((prevOptions) => [...prevOptions, newSubjectData.data]);
         setSubjectModal(false);
         setSelectedOption(newSubjectData.data.name);
         onSelectOption(newSubjectData.data.name);
-        toast.success("Subject added successfully");
+        toast.success(`Subject "${newSubjectData.data.name}" added successfully`);
       } else {
-        toast.error("Failed to add subject");
+        const errorData = await response.json();
+        setSubjectModal(false);
+        toast.error(errorData.message);
       }
     } catch (error) {
-      toast.error("Error adding subject");
+      setSubjectModal(false);
+      toast.error(error.message);
     }
   };
+  
 
   return (
     <>
