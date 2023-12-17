@@ -12,10 +12,10 @@ router.get("/", async (req, res) => {
       data: subjects,
     });
   } catch (error) {
-    console.error("Error while fetching subjects:", error);
     res.status(500).json({
       status: false,
       message: "Error while fetching subjects",
+      data: error.message,
     });
   }
 });
@@ -28,6 +28,20 @@ router.post("/", async (req, res) => {
       return res.status(422).json({
         status: false,
         message: "Validation error. Name is required for a subject.",
+        data: "Name is required for a subject.",
+      });
+    }
+
+   
+    const existingSubject = await subjectDB.findOne({
+      name: new RegExp(`^${name}$`, "i"), 
+    });
+
+    if (existingSubject) {
+      return res.status(422).json({
+        status: false,
+        message: "Subject with a similar name already exists",
+        data: "Subject with a similar name already exists",
       });
     }
 
@@ -39,20 +53,21 @@ router.post("/", async (req, res) => {
       data: newSubject,
     });
   } catch (error) {
-    console.error("Error while adding subject:", error);
-
-    let status, message;
+    let status, message, data;
     if (error.name === 'ValidationError') {
-      status = 422; // Unprocessable Entity
+      status = 422;
       message = "Validation error. Please check your input.";
+      data = error.message;
     } else {
-      status = 500; // Internal Server Error
+      status = 500;
       message = "Error while adding subject";
+      data = error.message;
     }
 
     res.status(status).json({
       status: false,
       message: message,
+      data: data,
     });
   }
 });

@@ -1,10 +1,10 @@
-
 const express = require("express");
 const router = express.Router();
 
 const voteDB = require("../models/Vote");
 const questionDB = require("../models/Question");
 
+// POST route for upvoting
 router.post("/upvote", async (req, res) => {
   try {
     const existingVote = await voteDB.findOne({
@@ -35,7 +35,7 @@ router.post("/upvote", async (req, res) => {
       message: "Upvote added successfully",
     });
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     res.status(500).send({
       status: false,
       message: "Error while processing upvote",
@@ -43,6 +43,7 @@ router.post("/upvote", async (req, res) => {
   }
 });
 
+// POST route for downvoting
 router.post("/downvote", async (req, res) => {
   try {
     const existingVote = await voteDB.findOne({
@@ -77,6 +78,34 @@ router.post("/downvote", async (req, res) => {
     res.status(500).send({
       status: false,
       message: "Error while processing downvote",
+    });
+  }
+});
+
+// GET route for checking votes
+router.get("/check", async (req, res) => {
+  try {
+    const existingVote = await voteDB.findOne({
+      questionId: req.query.questionId,
+      user: req.query.userId,
+    });
+
+    if (existingVote) {
+      res.status(200).send({
+        status: true,
+        voteType: existingVote.voteType,
+      });
+    } else {
+      res.status(200).send({
+        status: true,
+        voteType: null,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      status: false,
+      message: "Error while checking vote",
     });
   }
 });
