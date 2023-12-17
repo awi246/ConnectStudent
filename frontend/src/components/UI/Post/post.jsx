@@ -125,7 +125,7 @@ function Post ( { post } )
   return (
     <div className="post rounded-md shadow-lg">
       <div className="post__info">
-        <img src={ post?.user?.photo ? post?.user?.photo : BrokenImg } width={ 48 } className="rounded-full" />
+        <img src={ post?.user?.photo ? post?.user?.photo } width={ 48 } className="rounded-full" />
         <h4>{ post?.user?.userName }</h4>
         <small>
           <LastSeen date={ post?.createdAt } />
