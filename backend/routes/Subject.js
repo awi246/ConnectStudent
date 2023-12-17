@@ -32,9 +32,30 @@ router.post("/", async (req, res) => {
       });
     }
 
-   
+    const allowedSubjects = [
+      "Advanced Java",
+      "Data Warehouse",
+      "PoM",
+      "Project Work",
+      "Information Retrieval elective",
+      "Database Administration elective",
+      "Software Project Management elective",
+      "Network Security elective",
+      "Digital System Design elective",
+      "Network and System Administration elective",
+      "International Marketing elective",
+    ];
+
+    if (!allowedSubjects.includes(name)) {
+      return res.status(422).json({
+        status: false,
+        message: "Adding subjects other than the specified list is not allowed.",
+        data: "Adding subjects other than the specified list is not allowed.",
+      });
+    }
+
     const existingSubject = await subjectDB.findOne({
-      name: new RegExp(`^${name}$`, "i"), 
+      name: new RegExp(`^${name}$`, "i"),
     });
 
     if (existingSubject) {
@@ -46,6 +67,7 @@ router.post("/", async (req, res) => {
     }
 
     const newSubject = await subjectDB.create({ name });
+
 
     res.status(201).json({
       status: true,
