@@ -6,7 +6,7 @@ import axios from "axios";
 import { Tooltip } from "@material-tailwind/react";
 import { IoArrowDown, IoArrowUp, IoClose } from "react-icons/io5";
 import { CiChat2 } from "react-icons/ci";
-import { FiMoreHorizontal } from "react-icons/fi";
+// import { FiMoreHorizontal } from "react-icons/fi";
 import { CiShare2 } from "react-icons/ci";
 import BrokenImg from "../../../assets/brokeImg.png";
 import ReactHtmlParser from "html-react-parser";
@@ -15,8 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "../../../styles/Post.css";
 import "react-responsive-modal/styles.css";
 import "react-quill/dist/quill.snow.css";
-import {Button} from "@material-tailwind/react"
-
+import { Button } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../feature/userSlice";
 
@@ -32,9 +31,8 @@ function Post({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer, setAnswer] = useState("");
   const [voted, setVoted] = useState(null);
-  const [showOptions, setShowOptions] = useState(false);
+  // const [showOptions, setShowOptions] = useState(false);
   const user = useSelector(selectUser);
-
   useEffect(() => {
     const checkVoteStatus = async () => {
       try {
@@ -110,15 +108,15 @@ function Post({ post }) {
   };
 
   const handleEdit = () => {
-    // Add logic for handling the edit button click
-    // You can open a modal or navigate to an edit page, etc.
-    console.log('Edit button clicked');
+    // console.log("Edit button clicked");
   };
 
   const handleDelete = async () => {
     // Add logic for handling the delete button click
     try {
-      const response = await axios.delete(`http://localhost:90/api/questions/${post?._id}`);
+      const response = await axios.delete(
+        `http://localhost:90/api/questions/${post?._id}`
+      );
       if (response.data.status) {
         toast.success("Question deleted successfully");
         // Optionally, you may want to refresh the page or update the state with the latest data
@@ -236,37 +234,40 @@ function Post({ post }) {
                 </p>
               </Tooltip>
             </div>
-            <Tooltip content="Comment">
-              <p
-                className="cursor-pointer"
-                onClick={() => setIsModalOpen(true)}
-              >
-                <CiChat2 />
-              </p>
-            </Tooltip>
+
+            <p className="cursor-pointer" onClick={() => setIsModalOpen(true)}>
+              <CiChat2 />
+            </p>
 
             <div className="post__footerLeft flex items-center gap-2">
-              <Tooltip content="Share">
-                <p>
-                  <CiShare2 />
-                </p>
-              </Tooltip>
-              <Tooltip content="View More">
-  <div
-    onMouseEnter={() => setShowOptions(true)}
-    onMouseLeave={() => setShowOptions(false)}
-  >
-    <p>
-      <FiMoreHorizontal />
-    </p>
-    {showOptions && (
-      <div className="view-more-options">
-        <Button onClick={handleDelete} className="option-button">Delete</Button>
-        <Button onClick={handleEdit} className="option-button">Edit</Button>
-      </div>
-    )}
-  </div>
-</Tooltip>
+              <p className="cursor-pointer mr-2">
+                <CiShare2 />
+              </p>
+
+              {user && (
+                <>
+                  <div className="flex flex-row gap-4">
+                    {user.type === "teacher" && (
+                      <Button
+                        onClick={handleDelete}
+                        className="option-button"
+                        size="sm"
+                      >
+                        Delete
+                      </Button>
+                    )}
+                    {user?.uid === post?.uid && 
+                    <Button
+                      onClick={handleEdit}
+                      className="option-button"
+                      size="sm"
+                    >
+                      Edit
+                    </Button>
+                    }
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
