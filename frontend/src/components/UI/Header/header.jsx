@@ -134,7 +134,7 @@ function Header() {
             <CiSearch />
             <input type="text" placeholder="Search questions..." />
           </div>
-          <div className="flex flex-row items-center gap-6">
+          <div className="flex flex-row items-center justify-end gap-6">
             <Button
               color="blue"
               className="hover:bg-green-300"
