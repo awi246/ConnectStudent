@@ -4,20 +4,13 @@ import { useEffect, useState } from "react";
 //thirdparty library
 import axios from "axios";
 
-//icons
-import { FiHome } from "react-icons/fi";
-import {
-  MdOutlineAssignmentTurnedIn,
-  MdOutlineFeaturedPlayList,
-} from "react-icons/md";
-import { GoPeople } from "react-icons/go";
 // import { RxAvatar } from "react-icons/rx";
-import { IoNotificationsOutline, IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { SlLogout } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
 import { Modal } from "react-responsive-modal";
-import logo from "../../../assets/smalllogo.ico";
+import logo from "../../../assets/newLogo.svg";
 import alternateImg from "../../../assets/brokeImg.png";
 
 //styles
@@ -86,7 +79,7 @@ function Header() {
       questionName: question,
       questionUrl: inputUrl,
       questionSubject: selectedSubject,
-      uid: user?.uid
+      uid: user?.uid,
     };
 
     try {
@@ -103,9 +96,7 @@ function Header() {
       }, 3000);
     } catch (error) {
       setIsModalOpen(false);
-      toast.error(
-        error?.response?.data?.message || "Failed to add question"
-      );
+      toast.error(error?.response?.data?.message || "Failed to add question");
     }
   };
 
@@ -127,23 +118,23 @@ function Header() {
   return (
     <>
       {/* <ToastContainer /> */}
-      <div className={`Header ${scrolling ? "bg-gray-100" : ""} ${scrolling ? "" : "shadow-xl"}`}>
-        <div className="flex flex-row items-center gap-8">
+      <div
+        className={`Header ${scrolling ? "bg-gray-100" : ""} ${
+          scrolling ? "" : "shadow-xl"
+        }`}
+      >
+        <div className="flex flex-row items-center gap-16">
           <div>
-            <img src={logo} alt="logo" width={56} />
+            <img src={logo} alt="logo" width={150} />
           </div>
-          <div className="flex flex-row gap-11">
-            <FiHome className="text-2xl cursor-pointer" />
-            <MdOutlineFeaturedPlayList className="text-2xl cursor-pointer" />
-            <MdOutlineAssignmentTurnedIn className="text-2xl cursor-pointer" />
-            <GoPeople className="text-2xl cursor-pointer" />
-            <IoNotificationsOutline className="text-2xl cursor-pointer" />
-          </div>
+
+          {/* <FiHome className="text-2xl cursor-pointer" /> */}
+
           <div className="Header__input">
             <CiSearch />
             <input type="text" placeholder="Search questions..." />
           </div>
-          <div className="flex flex-row items-center gap-6">
+          <div className="flex flex-row items-center justify-end gap-6">
             <Button
               color="blue"
               className="hover:bg-green-300"
