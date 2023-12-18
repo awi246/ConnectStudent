@@ -130,9 +130,9 @@ function Header() {
 
           {/* <FiHome className="text-2xl cursor-pointer" /> */}
 
-          <div className="Header__input">
+          <div className="Header__input w-[480px] h-[50px]">
             <CiSearch />
-            <input type="text" placeholder="Search questions..." />
+            <input type="text" placeholder="Search..." />
           </div>
           <div className="flex flex-row items-center justify-end gap-6">
             <Button
