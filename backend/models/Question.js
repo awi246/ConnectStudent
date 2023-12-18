@@ -1,21 +1,18 @@
 const mongoose = require("mongoose");
 
 const QuestionSchema = new mongoose.Schema({
-  
   questionName: String,
   questionUrl: String,
   questionSubject: String,
+  uid:String,
   createdAt: {
     type: Date,
     default: Date.now(),
   },
-
   answers: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Answers",
   },
-
-  user: Object,
   votes: {
     upvote: {
       type: Number,
@@ -26,7 +23,6 @@ const QuestionSchema = new mongoose.Schema({
       default: 0,
     },
   },
-
 });
 
 module.exports = mongoose.model("Questions", QuestionSchema);

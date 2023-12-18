@@ -51,36 +51,44 @@ function Header() {
 
     fetchSubjects();
   }, []);
+
   const handleSubmit = async () => {
     if (!question.trim() || !selectedSubject) {
       toast.error("Please fill in all required fields");
       return;
     }
+
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
+
     const body = {
       questionName: question,
       questionUrl: inputUrl,
       questionSubject: selectedSubject,
+      uid: user?.uid
     };
-    await axios
-      .post("http://localhost:90/api/questions", body, config)
-      .then((res) => {
-        // console.log( res.data );
-        setIsModalOpen(false);
-        toast.success(res.data.message);
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 3000);
-      })
-      .catch((error) => {
-        setIsModalOpen(false);
-        toast.error(error?.response?.data?.message || "Failed to add question");
-      });
-    // }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:90/api/questions",
+        body,
+        config
+      );
+
+      setIsModalOpen(false);
+      toast.success(response.data.message);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 3000);
+    } catch (error) {
+      setIsModalOpen(false);
+      toast.error(
+        error?.response?.data?.message || "Failed to add question"
+      );
+    }
   };
 
   const openLogoutModal = () => {
@@ -100,7 +108,7 @@ function Header() {
 
   return (
     <>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className="Header shadow-2xl">
         <div className="flex flex-row items-center gap-8">
           <div>
