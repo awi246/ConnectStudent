@@ -35,7 +35,6 @@ router.post("/upvote", async (req, res) => {
       message: "Upvote added successfully",
     });
   } catch (error) {
-    console.error(error);
     res.status(500).send({
       status: false,
       message: "Error while processing upvote",
@@ -74,7 +73,6 @@ router.post("/downvote", async (req, res) => {
       message: "Downvote added successfully",
     });
   } catch (error) {
-    console.error(error);
     res.status(500).send({
       status: false,
       message: "Error while processing downvote",
@@ -102,7 +100,6 @@ router.get("/check", async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error);
     res.status(500).send({
       status: false,
       message: "Error while checking vote",

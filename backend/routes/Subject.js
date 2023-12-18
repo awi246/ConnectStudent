@@ -37,19 +37,20 @@ router.post("/", async (req, res) => {
       "Data Warehouse",
       "PoM",
       "Project Work",
-      "Information Retrieval elective",
-      "Database Administration elective",
-      "Software Project Management elective",
-      "Network Security elective",
-      "Digital System Design elective",
-      "Network and System Administration elective",
-      "International Marketing elective",
+      "Information Retrieval",
+      "Database Administration",
+      "Software Project Management",
+      "Network Security",
+      "Digital System Design",
+      "Network and System Administration",
+      "International Marketing",
     ];
 
     if (!allowedSubjects.includes(name)) {
       return res.status(422).json({
         status: false,
-        message: "Adding subjects other than the specified list is not allowed.",
+        message:
+          "Adding subjects other than the specified list is not allowed.",
         data: "Adding subjects other than the specified list is not allowed.",
       });
     }
@@ -68,7 +69,6 @@ router.post("/", async (req, res) => {
 
     const newSubject = await subjectDB.create({ name });
 
-
     res.status(201).json({
       status: true,
       message: "Subject added successfully",
@@ -76,7 +76,7 @@ router.post("/", async (req, res) => {
     });
   } catch (error) {
     let status, message, data;
-    if (error.name === 'ValidationError') {
+    if (error.name === "ValidationError") {
       status = 422;
       message = "Validation error. Please check your input.";
       data = error.message;

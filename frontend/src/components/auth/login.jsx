@@ -1,10 +1,15 @@
+import  { useState } from "react";
 import "./Login.css";
 import { motion } from "framer-motion";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../firebase";
 import { Button } from "@material-tailwind/react";
 import logo from "../../assets/Mainlogo.png";
+import TeacherRegistrationDrawer from "./Teacher/register";
+import TeacherLoginDrawer from "./Teacher/login";
 function Login() {
+  const [registerDrawerOpen, setRegisterDrawerOpen] = useState(false);
+  const [LoginDrawerOpen, setLoginDrawerOpen] = useState(false);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -36,6 +41,21 @@ function Login() {
       });
   };
 
+  const openRegisterDrawer = () => {
+    setRegisterDrawerOpen(true);
+  };
+
+  const closeRegisterDrawer = () => {
+    setRegisterDrawerOpen(false);
+  };
+  const openLoginDrawer = () => {
+    setLoginDrawerOpen(true);
+  };
+
+  const closeLoginDrawer = () => {
+    setLoginDrawerOpen(false);
+  };
+
   return (
     <div className="login-container">
       <motion.div
@@ -63,6 +83,9 @@ function Login() {
             />
             <img src={logo} className="" width={380} />
           </div>
+          <div>
+              <p className="text-2xl mb-2">Note: Student can directly login without registration</p>
+            </div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             className="flex flex-row gap-6"
@@ -80,17 +103,30 @@ function Login() {
             >
               STUDENT LOGIN
             </Button>
-            {/* <Button
-              onClick={handleSubmit}
+            <Button
+              onClick={openLoginDrawer}
               color="purple"
               className="btn-login hover:bg-green-400 capitalize"
               size="lg"
             >
               TEACHER LOGIN
-            </Button> */}
+            </Button>
+            <Button
+              onClick={openRegisterDrawer}
+              color="orange"
+              className="btn-login hover:bg-green-400 capitalize"
+              size="lg"
+            >
+              TEACHER REGISTRATION
+            </Button>
           </motion.div>
         </motion.div>
       </motion.div>
+          
+      <TeacherRegistrationDrawer open={registerDrawerOpen} onClose={closeRegisterDrawer} />
+      { LoginDrawerOpen &&
+      <TeacherLoginDrawer open={LoginDrawerOpen} onClose={closeLoginDrawer} />
+      }
     </div>
   );
 }
