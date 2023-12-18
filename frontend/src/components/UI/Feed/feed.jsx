@@ -12,40 +12,51 @@ function Feed({ selectedOption }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
-    async function getQuestion() {
+    async function getQuestions() {
       try {
-        const response = await axios.get("http://localhost:90/api/questions");
-        const filteredPosts = response.data.filter(
-          (post) => post.questionSubject === selectedOption
-        );
-        setPosts(filteredPosts.reverse());
+        let url = "http://localhost:90/api/questions";
+        if (selectedOption) {
+          url += `?questionSubject=${selectedOption}`;
+        }
+        const response = await axios.get(url);
+        const filteredPosts = response.data.reverse();
+        setPosts(filteredPosts);
         setLoading(false);
       } catch (error) {
-        setError("Error fetching data");
+        setError("Error fetching data. See console for details.");
         setLoading(false);
       }
     }
-    getQuestion();
+
+    getQuestions();
   }, [selectedOption]);
 
   return (
-    <div className="feed">
+    <div className="feed w-full">
       <Box />
       {loading && <Loading />}
-      {error && <p>{error}</p>}
-      {!loading && !error && posts.length === 0 && (
-        <>
-          <div className="mt-6 flex flex-col justify-center">
-            <p className="text-xl text-center mb-2">Oops. No any data found</p>
-            <img src={NotFound} className="bg-transparent w-full rounded-lg" />
-          </div>
-        </>
-      )}
       {!loading &&
         !error &&
-        posts.map((post, index) => <Post key={index} post={post} />)}
+        posts
+          .filter(
+            (post) => !selectedOption || post.questionSubject === selectedOption
+          )
+          .map((post, index) => <Post key={index} post={post} />)}
+      {!loading &&
+        !error &&
+        posts.filter(
+          (post) => !selectedOption || post.questionSubject === selectedOption
+        ).length === 0 && (
+          <div className="mt-6 flex flex-col justify-center">
+            <p className="text-xl text-center mb-2">Oops. No any data found</p>
+            <img
+              src={NotFound}
+              className="bg-transparent m-auto rounded-lg"
+              width={750}
+            />
+          </div>
+        )}{" "}
     </div>
   );
 }
