@@ -10,6 +10,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const TeacherRegistrationDrawer = ({ open, onClose }) => {
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
   const animatedComponents = makeAnimated();
   const options = [
     { value: "Advanced Java", label: "Advanced Java" },
@@ -58,6 +62,8 @@ const TeacherRegistrationDrawer = ({ open, onClose }) => {
       password: "",
       subjects: "",
     });
+
+   
 
     setErrors({
       username: "",
@@ -147,7 +153,7 @@ const TeacherRegistrationDrawer = ({ open, onClose }) => {
       <ToastContainer />
       <Drawer
         open={open}
-        onClose={onClose}
+        onClose={handleClose}
         className="p-4 shadow-lg bg-transparent"
         placement="right"
         size="450px"
@@ -181,6 +187,12 @@ const TeacherRegistrationDrawer = ({ open, onClose }) => {
                 onChange={handleInputChange}
                 error={errors.username}
               />
+              {errors.username && (
+                <Typography variant="caption" color="red">
+                  {errors.username}
+                </Typography>
+              )}
+
               <Input
                 variant="standard"
                 type="email"
@@ -190,6 +202,12 @@ const TeacherRegistrationDrawer = ({ open, onClose }) => {
                 onChange={handleInputChange}
                 error={errors.email}
               />
+              {errors.email && (
+                <Typography variant="caption" color="red">
+                  {errors.email}
+                </Typography>
+              )}
+
               <Input
                 variant="standard"
                 type="password"
@@ -199,6 +217,12 @@ const TeacherRegistrationDrawer = ({ open, onClose }) => {
                 onChange={handleInputChange}
                 error={errors.password}
               />
+              {errors.password && (
+                <Typography variant="caption" color="red">
+                  {errors.password}
+                </Typography>
+              )}
+
               <Select
                 components={animatedComponents}
                 isMulti
@@ -211,6 +235,11 @@ const TeacherRegistrationDrawer = ({ open, onClose }) => {
                   formData.subjects.includes(option.value)
                 )}
               />
+              {errors.subjects && (
+                <Typography variant="caption" color="red">
+                  {errors.subjects}
+                </Typography>
+              )}
             </div>
             <Button
               className="mt-6"
