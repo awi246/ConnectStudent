@@ -39,6 +39,24 @@ function Header() {
   const Close = <IoCloseOutline />;
   const [subjects, setSubjects] = useState([]);
 
+  const [scrolling, setScrolling] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
@@ -109,7 +127,7 @@ function Header() {
   return (
     <>
       {/* <ToastContainer /> */}
-      <div className="Header shadow-2xl">
+      <div className={`Header ${scrolling ? "bg-gray-100" : ""} ${scrolling ? "" : "shadow-xl"}`}>
         <div className="flex flex-row items-center gap-8">
           <div>
             <img src={logo} alt="logo" width={56} />
