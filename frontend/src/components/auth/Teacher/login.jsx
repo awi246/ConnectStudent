@@ -113,6 +113,12 @@ const TeacherLoginDrawer = ({ open, onClose }) => {
                 onChange={handleInputChange}
                 error={errors.email}
               />
+              {errors.email && (
+                <Typography variant="caption" color="red">
+                  {errors.email}
+                </Typography>
+              )}
+
               <Input
                 variant="standard"
                 type="password"
@@ -122,6 +128,11 @@ const TeacherLoginDrawer = ({ open, onClose }) => {
                 onChange={handleInputChange}
                 error={errors.password}
               />
+              {errors.password && (
+                <Typography variant="caption" color="red">
+                  {errors.password}
+                </Typography>
+              )}
             </div>
             <Button
               className="mt-6"

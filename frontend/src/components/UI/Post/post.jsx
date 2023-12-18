@@ -112,14 +112,12 @@ function Post({ post }) {
   };
 
   const handleDelete = async () => {
-    // Add logic for handling the delete button click
     try {
       const response = await axios.delete(
         `http://localhost:90/api/questions/${post?._id}`
       );
       if (response.data.status) {
         toast.success("Question deleted successfully");
-        // Optionally, you may want to refresh the page or update the state with the latest data
       } else {
         toast.error("Failed to delete question");
       }
@@ -256,15 +254,15 @@ function Post({ post }) {
                         Delete
                       </Button>
                     )}
-                    {user?.uid === post?.uid && 
-                    <Button
-                      onClick={handleEdit}
-                      className="option-button"
-                      size="sm"
-                    >
-                      Edit
-                    </Button>
-                    }
+                    {user?.uid === post?.uid && (
+                      <Button
+                        onClick={handleEdit}
+                        className="option-button"
+                        size="sm"
+                      >
+                        Edit
+                      </Button>
+                    )}
                   </div>
                 </>
               )}

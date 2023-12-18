@@ -7,7 +7,7 @@ import image from "../../assets/image.jpeg";
 import { Button, Input } from "@material-tailwind/react";
 import Modal from "react-responsive-modal";
 import { IoCloseOutline } from "react-icons/io5";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function SidebarOptions({ onSelectOption }) {
@@ -74,6 +74,7 @@ function SidebarOptions({ onSelectOption }) {
 
   return (
     <>
+      <ToastContainer />
       <div className="flex flex-col gap-3">
         {options.map((option) => (
           <div
