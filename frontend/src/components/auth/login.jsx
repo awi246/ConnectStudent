@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../firebase";
 import { Button } from "@material-tailwind/react";
-import logo from "../../assets/Mainlogo.png";
+import logo from "../../assets/newLogo.svg";
 import TeacherRegistrationDrawer from "./Teacher/register";
 import TeacherLoginDrawer from "./Teacher/login";
 function Login() {
