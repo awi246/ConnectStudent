@@ -65,6 +65,7 @@ function Login() {
           </div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
+            className="flex flex-row gap-6"
             animate={{
               opacity: 1,
               y: 0,
@@ -77,8 +78,16 @@ function Login() {
               className="btn-login hover:bg-green-400 capitalize"
               size="lg"
             >
-              LOGIN WITH GOOGLE
+              STUDENT LOGIN
             </Button>
+            {/* <Button
+              onClick={handleSubmit}
+              color="purple"
+              className="btn-login hover:bg-green-400 capitalize"
+              size="lg"
+            >
+              TEACHER LOGIN
+            </Button> */}
           </motion.div>
         </motion.div>
       </motion.div>

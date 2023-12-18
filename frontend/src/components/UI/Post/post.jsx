@@ -76,7 +76,7 @@ function Post({ post }) {
         }, 3000);
       } catch (error) {
         setIsModalOpen(false);
-        toast.error("Failed to add answer");
+        toast.error(error?.response?.data?.message || "Failed to add answer");
       }
     }
   };

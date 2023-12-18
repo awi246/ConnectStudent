@@ -50,7 +50,7 @@ function Header() {
     };
 
     fetchSubjects();
-  }, []); 
+  }, []);
   const handleSubmit = async () => {
     if (!question.trim() || !selectedSubject) {
       toast.error("Please fill in all required fields");
@@ -76,9 +76,9 @@ function Header() {
           window.location.href = "/";
         }, 3000);
       })
-      .catch(() => {
+      .catch((error) => {
         setIsModalOpen(false);
-        toast.error("Error in adding question");
+        toast.error(error?.response?.data?.message || "Failed to add question");
       });
     // }
   };
@@ -100,7 +100,7 @@ function Header() {
 
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       <div className="Header shadow-2xl">
         <div className="flex flex-row items-center gap-8">
           <div>
@@ -169,12 +169,12 @@ function Header() {
                     className="font-medium"
                     onChange={(e) => setSelectedSubject(e.target.value)}
                   >
-                   <option value="">Please choose subject</option>
-                {subjects.map((subject) => (
-                  <option key={subject.id} value={subject.name}>
-                    {subject.name}
-                  </option>
-                ))}
+                    <option value="">Please choose subject</option>
+                    {subjects.map((subject) => (
+                      <option key={subject.id} value={subject.name}>
+                        {subject.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
