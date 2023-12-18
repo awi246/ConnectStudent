@@ -22,6 +22,7 @@ function TotalRoutes() {
             photo: authUser.photoURL,
             email: authUser.email,
             uid: authUser.uid,
+            type: "student",
           })
         );
       }
@@ -32,7 +33,13 @@ function TotalRoutes() {
 
   return (
     <Suspense fallback={<Loading />}>
-      {loading ? <Loading /> : user ? <Main /> : <Login />}
+      {loading ? (
+        <Loading />
+      ) : user && user.type === "student" ? (
+        <Main />
+      ) : (
+        <Login />
+      )}
     </Suspense>
   );
 }

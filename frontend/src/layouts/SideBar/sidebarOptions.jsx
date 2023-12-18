@@ -19,13 +19,12 @@ function SidebarOptions({ onSelectOption }) {
   const Close = <IoCloseOutline />;
 
   useEffect(() => {
-    // Fetch subjects from your API
     const fetchSubjects = async () => {
       try {
         const response = await fetch("http://localhost:90/api/subjects");
         const data = await response.json();
         setOptions(data.data);
-        // Set the default selected option if needed
+
         if (data.data.length > 0) {
           setSelectedOption(data.data[0].name);
           onSelectOption(data.data[0].name);
@@ -52,14 +51,16 @@ function SidebarOptions({ onSelectOption }) {
         },
         body: JSON.stringify({ name: newSubjectName }),
       });
-  
+
       if (response.ok) {
         const newSubjectData = await response.json();
         setOptions((prevOptions) => [...prevOptions, newSubjectData.data]);
         setSubjectModal(false);
         setSelectedOption(newSubjectData.data.name);
         onSelectOption(newSubjectData.data.name);
-        toast.success(`Subject "${newSubjectData.data.name}" added successfully`);
+        toast.success(
+          `Subject "${newSubjectData.data.name}" added successfully`
+        );
       } else {
         const errorData = await response.json();
         setSubjectModal(false);
@@ -70,7 +71,6 @@ function SidebarOptions({ onSelectOption }) {
       toast.error(error.message);
     }
   };
-  
 
   return (
     <>
@@ -89,9 +89,7 @@ function SidebarOptions({ onSelectOption }) {
         ))}
         <div className="sidebarOption" onClick={() => setSubjectModal(true)}>
           <IoMdAdd />
-          <p className="text" >
-            Add more Subjects
-          </p>
+          <p className="text">Add more Subjects</p>
         </div>
       </div>
       <Modal
@@ -135,7 +133,6 @@ function SidebarOptions({ onSelectOption }) {
           </div>
         </div>
       </Modal>
-     
     </>
   );
 }

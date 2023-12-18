@@ -2,8 +2,16 @@ const express = require("express");
 const router = express.Router();
 
 const answerDB = require("../models/Answer");
+const Filter = require("@duckodas/badwords");
+const profanityFilter = new Filter();
 
 router.post("/", async (req, res) => {
+  if (profanityFilter.isProfane(req.body.answer)) {
+    return res.status(400).send({
+      status: false,
+      message: "Cannot add answer with offensive words",
+    });
+  }
   try {
     await answerDB
       .create({
