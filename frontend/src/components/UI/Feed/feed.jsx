@@ -33,7 +33,7 @@ function Feed({ selectedOption }) {
   }, [selectedOption]);
 
   return (
-    <div className="feed w-full">
+    <div className="feed">
       <Box />
       {loading && <Loading />}
       {!loading &&

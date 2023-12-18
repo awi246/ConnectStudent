@@ -1,21 +1,28 @@
 import "../../styles/WidgetContent.css";
 import image from "../../assets/image.jpeg";
-function WidgetContent ()
-{
+function WidgetContent() {
   return (
     <div className=" widget__contents">
       <div className="widget__content">
-        <img
-          src={ image }
-          alt=""
-        />
+        <img src={image} alt="" />
+        <div className="widget__contentTitle">
+          <h5>Manoj Khatri</h5>
+        </div>
+      </div>
+      <div className="widget__content">
+        <img src={image} alt="" />
         <div className="widget__contentTitle">
           <h5>Awiral Chand</h5>
-
+        </div>
+      </div>
+      <div className="widget__content">
+        <img src={image} alt="" />
+        <div className="widget__contentTitle">
+          <h5>Ganesh Acharya</h5>
         </div>
       </div>
     </div>
   );
 }
 
-export default WidgetContent; 
+export default WidgetContent;
