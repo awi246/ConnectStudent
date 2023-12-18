@@ -13,7 +13,7 @@ import {
 import { GoPeople } from "react-icons/go";
 // import { RxAvatar } from "react-icons/rx";
 import { IoNotificationsOutline, IoCloseOutline } from "react-icons/io5";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { SlLogout } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
 import { Modal } from "react-responsive-modal";

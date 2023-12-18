@@ -1,4 +1,3 @@
-// models/TeacherRegister.js
 const mongoose = require("mongoose");
 
 const teacherRegisterSchema = new mongoose.Schema(
@@ -14,6 +13,10 @@ const teacherRegisterSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    password: {
+      type: String,
+      required: true,
+    },
     photo: {
       type: String,
     },
@@ -26,13 +29,17 @@ const teacherRegisterSchema = new mongoose.Schema(
       type: String,
       default: "Teacher",
     },
-    subject: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subject",
-    },
+    subjects: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
