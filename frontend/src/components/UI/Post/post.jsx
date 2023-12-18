@@ -7,7 +7,6 @@ import { Tooltip } from "@material-tailwind/react";
 import { IoArrowDown, IoArrowUp, IoClose } from "react-icons/io5";
 import { CiChat2 } from "react-icons/ci";
 import { FiMoreHorizontal } from "react-icons/fi";
-// import { BsRepeat } from "react-icons/bs";
 import { CiShare2 } from "react-icons/ci";
 import BrokenImg from "../../../assets/brokeImg.png";
 import ReactHtmlParser from "html-react-parser";
@@ -16,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "../../../styles/Post.css";
 import "react-responsive-modal/styles.css";
 import "react-quill/dist/quill.snow.css";
+import {Button} from "@material-tailwind/react"
 
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../feature/userSlice";
@@ -32,6 +32,7 @@ function Post({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer, setAnswer] = useState("");
   const [voted, setVoted] = useState(null);
+  const [showOptions, setShowOptions] = useState(false);
   const user = useSelector(selectUser);
 
   useEffect(() => {
@@ -105,6 +106,27 @@ function Post({ post }) {
       }
     } catch (error) {
       toast.error("Failed to vote");
+    }
+  };
+
+  const handleEdit = () => {
+    // Add logic for handling the edit button click
+    // You can open a modal or navigate to an edit page, etc.
+    console.log('Edit button clicked');
+  };
+
+  const handleDelete = async () => {
+    // Add logic for handling the delete button click
+    try {
+      const response = await axios.delete(`http://localhost:90/api/questions/${post?._id}`);
+      if (response.data.status) {
+        toast.success("Question deleted successfully");
+        // Optionally, you may want to refresh the page or update the state with the latest data
+      } else {
+        toast.error("Failed to delete question");
+      }
+    } catch (error) {
+      toast.error("Failed to delete question");
     }
   };
 
@@ -214,11 +236,6 @@ function Post({ post }) {
                 </p>
               </Tooltip>
             </div>
-            {/* <Tooltip content="Repeat">
-              <p>
-                <BsRepeat />
-              </p>
-            </Tooltip> */}
             <Tooltip content="Comment">
               <p
                 className="cursor-pointer"
@@ -235,10 +252,21 @@ function Post({ post }) {
                 </p>
               </Tooltip>
               <Tooltip content="View More">
-                <p>
-                  <FiMoreHorizontal />
-                </p>
-              </Tooltip>
+  <div
+    onMouseEnter={() => setShowOptions(true)}
+    onMouseLeave={() => setShowOptions(false)}
+  >
+    <p>
+      <FiMoreHorizontal />
+    </p>
+    {showOptions && (
+      <div className="view-more-options">
+        <Button onClick={handleDelete} className="option-button">Delete</Button>
+        <Button onClick={handleEdit} className="option-button">Edit</Button>
+      </div>
+    )}
+  </div>
+</Tooltip>
             </div>
           </div>
         </div>
