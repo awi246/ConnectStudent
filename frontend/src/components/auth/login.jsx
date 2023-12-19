@@ -8,6 +8,7 @@ import logo from "../../assets/newLogo.svg";
 import TeacherDrawer from "./Teacher";
 function Login() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  document.title = "Connect Students";
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
