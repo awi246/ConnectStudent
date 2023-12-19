@@ -98,12 +98,18 @@ function Post({ post }) {
           questionId: post?._id,
           user: user,
         };
-        await axios.post(url, voteData);
+        const response =await axios.post(url, voteData);
         setVoted(voteType);
-        toast.success("Vote added successfully");
+        toast.success(response?.data?.message);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 3000);
       }
     } catch (error) {
-      toast.error("Failed to vote");
+      toast.error(error?.response?.data?.message);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 3000);
     }
   };
 
@@ -210,27 +216,40 @@ function Post({ post }) {
         </div>
         <div className="post__footer">
           <div className="flex items-center gap-4 text-2xl w-full justify-between mt-6">
-            <div className="post__footerAction space-x-6">
-              <Tooltip content="Up vote">
-                <p
-                  onClick={() => handleVote("upvote")}
-                  className={`cursor-pointer ${
-                    voted === "upvote" ? "text-blue-500" : ""
-                  }`}
+            <div className="post__footerAction ">
+              <div className="flex flex-row items-center">
+                <span className="text-sm font-bold text-green-500">
+                  {post?.votes?.upvote || 0}
+                </span>
+                <Tooltip content="Up vote">
+                  <p
+                    onClick={() => handleVote("upvote")}
+                    className={`cursor-pointer ${
+                      voted === "upvote" ? "text-blue-500" : ""
+                    }`}
+                  >
+                    <IoArrowUp className="text-green-400" />
+                  </p>
+                </Tooltip>
+              </div>
+              <div className="flex flex-row items-center">
+                <Tooltip content="Down vote">
+                  <p
+                    onClick={() => handleVote("downvote")}
+                    className={`cursor-pointer ${
+                      voted === "downvote" ? "text-red-500" : ""
+                    }`}
+                  >
+                    <IoArrowDown className="text-red-400" />
+                  </p>
+                </Tooltip>
+                <span
+                  className="text-sm font-bold text-red-500"
+                   
                 >
-                  <IoArrowUp />
-                </p>
-              </Tooltip>
-              <Tooltip content="Down vote">
-                <p
-                  onClick={() => handleVote("downvote")}
-                  className={`cursor-pointer ${
-                    voted === "downvote" ? "text-red-500" : ""
-                  }`}
-                >
-                  <IoArrowDown />
-                </p>
-              </Tooltip>
+                  {post?.votes?.downvote || 0}
+                </span>
+              </div>
             </div>
 
             <p className="cursor-pointer" onClick={() => setIsModalOpen(true)}>
