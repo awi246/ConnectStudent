@@ -6,6 +6,7 @@ import Feed from '../../components/UI/Feed/feed';
 import Header from '../../components/UI/Header/header';
 import Widget from '../RightSide';
 import Image from "../../assets/bgMain.svg";
+import Footer from '../../components/Footer/footer';
 const Main = () => {
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -32,6 +33,7 @@ const Main = () => {
           <Widget />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
