@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../../feature/userSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
+import SearchBar from "../../SearchBar";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -124,16 +125,10 @@ function Header() {
         }`}
       >
         <div className="flex flex-row items-center gap-16">
-          <div>
-            <img src={logo} alt="logo" width={150} />
-          </div>
-
-          {/* <FiHome className="text-2xl cursor-pointer" /> */}
-
-          <div className="Header__input w-[480px] h-[50px]">
-            <CiSearch />
-            <input type="text" placeholder="Search..." />
-          </div>
+          <a href="/">
+            <img src={logo} alt="logo" width={150} className="mt-6" />
+          </a>
+          <SearchBar/>
           <div className="flex flex-row items-center justify-end gap-6">
             <Button
               color="blue"
