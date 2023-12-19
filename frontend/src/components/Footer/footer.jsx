@@ -9,7 +9,7 @@ const Footer = () => {
         <img src={Logo} />
         All Rights Reserved.
       </div>
-      <span className="text-lg">For CSIT, By CSIT</span>
+      <span className="text-lg">For CSIT | By CSIT</span>
     </div>
   );
 };
