@@ -3,30 +3,33 @@ const router = express.Router();
 
 const voteDB = require("../models/Vote");
 const questionDB = require("../models/Question");
-
-// POST route for upvoting
 router.post("/upvote", async (req, res) => {
   try {
-    const existingVote = await voteDB.findOne({
-      questionId: req.body.questionId,
-      user: req.body.user,
-    });
-
-    if (existingVote) {
-      // User has already voted, update the vote type
-      existingVote.voteType = "upvote";
-      await existingVote.save();
-    } else {
-      // User is voting for the first time
-      await voteDB.create({
-        voteType: "upvote",
-        questionId: req.body.questionId,
-        user: req.body.user,
+    const { questionId, user } = req.body;
+    if (!questionId || !user) {
+      return res.status(400).send({
+        status: false,
+        message: "Invalid request body. Missing required fields.",
       });
     }
 
-    // Increment the upvote count in the question
-    await questionDB.findByIdAndUpdate(req.body.questionId, {
+    const existingVote = await voteDB.findOne({
+      questionId: questionId,
+      user: user,
+    });
+
+    if (existingVote) {
+      return res.status(400).send({
+        status: false,
+        message: "You have already voted on this question.",
+      });
+    }
+    await voteDB.create({
+      voteType: "upvote",
+      questionId: questionId,
+      user: user,
+    });
+    await questionDB.findByIdAndUpdate(questionId, {
       $inc: { "votes.upvote": 1 },
     });
 
@@ -42,29 +45,41 @@ router.post("/upvote", async (req, res) => {
   }
 });
 
-// POST route for downvoting
 router.post("/downvote", async (req, res) => {
   try {
-    const existingVote = await voteDB.findOne({
-      questionId: req.body.questionId,
-      user: req.body.user,
-    });
+    const { questionId, user } = req.body;
 
-    if (existingVote) {
-      // User has already voted, update the vote type
-      existingVote.voteType = "downvote";
-      await existingVote.save();
-    } else {
-      // User is voting for the first time
-      await voteDB.create({
-        voteType: "downvote",
-        questionId: req.body.questionId,
-        user: req.body.user,
+    if (!questionId || !user) {
+      return res.status(400).send({
+        status: false,
+        message: "Invalid request body. Missing required fields.",
       });
     }
 
-    // Decrement the downvote count in the question
-    await questionDB.findByIdAndUpdate(req.body.questionId, {
+    const existingVote = await voteDB.findOne({
+      questionId: questionId,
+      user: user,
+    });
+
+    if (existingVote) {
+      if (existingVote.voteType === "downvote") {
+        return res.status(400).send({
+          status: false,
+          message: "You have already downvoted on this question.",
+        });
+      }
+
+      existingVote.voteType = "downvote";
+      await existingVote.save();
+    } else {
+      await voteDB.create({
+        voteType: "downvote",
+        questionId: questionId,
+        user: user,
+      });
+    }
+
+    await questionDB.findByIdAndUpdate(questionId, {
       $inc: { "votes.downvote": 1 },
     });
 
@@ -80,7 +95,6 @@ router.post("/downvote", async (req, res) => {
   }
 });
 
-// GET route for checking votes
 router.get("/check", async (req, res) => {
   try {
     const existingVote = await voteDB.findOne({

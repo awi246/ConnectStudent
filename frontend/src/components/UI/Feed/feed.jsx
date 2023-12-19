@@ -20,11 +20,20 @@ function Feed({ selectedOption }) {
           url += `?questionSubject=${selectedOption}`;
         }
         const response = await axios.get(url);
-        const filteredPosts = response.data.reverse();
-        setPosts(filteredPosts);
+
+        const sortedPosts = response.data.sort((a, b) => {
+          if (b.votes.upvote !== a.votes.upvote) {
+            return b.votes.upvote - a.votes.upvote;
+          } else if (b.votes.downvote !== a.votes.downvote) {
+            return a.votes.downvote - b.votes.downvote;
+          } else {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          }
+        });
+        setPosts(sortedPosts);
         setLoading(false);
       } catch (error) {
-        setError("Error fetching data. See console for details.");
+        setError("Error fetching data");
         setLoading(false);
       }
     }
@@ -54,7 +63,6 @@ function Feed({ selectedOption }) {
               src={NotFound}
               width={500}
               className="bg-transparent m-auto rounded-lg"
-              
             />
           </div>
         )}{" "}
