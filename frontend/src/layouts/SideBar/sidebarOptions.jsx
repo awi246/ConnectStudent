@@ -32,6 +32,7 @@ function SidebarOptions({ onSelectOption }) {
   const handleOptionClick = (option) => {
     setSelectedOption(option.name);
     onSelectOption(option.name);
+    document.title = `Connect Students | ${option.name}`;
   };
 
   return (

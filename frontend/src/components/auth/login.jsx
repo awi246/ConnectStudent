@@ -1,15 +1,13 @@
-import  { useState } from "react";
+import { useState } from "react";
 import "./Login.css";
 import { motion } from "framer-motion";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../firebase";
 import { Button } from "@material-tailwind/react";
 import logo from "../../assets/newLogo.svg";
-import TeacherRegistrationDrawer from "./Teacher/register";
-import TeacherLoginDrawer from "./Teacher/login";
+import TeacherDrawer from "./Teacher";
 function Login() {
-  const [registerDrawerOpen, setRegisterDrawerOpen] = useState(false);
-  const [LoginDrawerOpen, setLoginDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -41,19 +39,12 @@ function Login() {
       });
   };
 
-  const openRegisterDrawer = () => {
-    setRegisterDrawerOpen(true);
+  const openDrawer = () => {
+    setDrawerOpen(true);
   };
 
-  const closeRegisterDrawer = () => {
-    setRegisterDrawerOpen(false);
-  };
-  const openLoginDrawer = () => {
-    setLoginDrawerOpen(true);
-  };
-
-  const closeLoginDrawer = () => {
-    setLoginDrawerOpen(false);
+  const closeDrawer = () => {
+    setDrawerOpen(false);
   };
 
   return (
@@ -84,8 +75,10 @@ function Login() {
             <img src={logo} className="" width={380} />
           </div>
           <div>
-              <p className="text-2xl mb-2">Note: Student can directly login without registration</p>
-            </div>
+            <p className="text-2xl mb-2 font-medium">
+              Note: Student can directly login without registration
+            </p>
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             className="flex flex-row gap-6"
@@ -104,29 +97,20 @@ function Login() {
               STUDENT LOGIN
             </Button>
             <Button
-              onClick={openLoginDrawer}
+              onClick={openDrawer}
               color="purple"
               className="btn-login hover:bg-green-400 capitalize"
               size="lg"
             >
-              TEACHER LOGIN
-            </Button>
-            <Button
-              onClick={openRegisterDrawer}
-              color="orange"
-              className="btn-login hover:bg-green-400 capitalize"
-              size="lg"
-            >
-              TEACHER REGISTRATION
+              TEACHER LOGIN/REGISTRATION
             </Button>
           </motion.div>
         </motion.div>
       </motion.div>
-          
-      <TeacherRegistrationDrawer open={registerDrawerOpen} onClose={closeRegisterDrawer} />
-      { LoginDrawerOpen &&
-      <TeacherLoginDrawer open={LoginDrawerOpen} onClose={closeLoginDrawer} />
-      }
+
+      {drawerOpen && (
+        <TeacherDrawer open={drawerOpen} onClose={closeDrawer} />
+      )}
     </div>
   );
 }

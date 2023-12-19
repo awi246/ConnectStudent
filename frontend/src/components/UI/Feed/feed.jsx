@@ -49,10 +49,11 @@ function Feed({ selectedOption }) {
           (post) => !selectedOption || post.questionSubject === selectedOption
         ).length === 0 && (
           <div className="mt-6 flex flex-col justify-center">
-            <p className="text-xl text-center mb-2">Oops. No any data found</p>
+            <p className="text-xl text-center">Oops. No any data found</p>
             <img
               src={NotFound}
-              className="bg-transparent m-auto w-full rounded-lg"
+              width={500}
+              className="bg-transparent m-auto rounded-lg"
               
             />
           </div>
