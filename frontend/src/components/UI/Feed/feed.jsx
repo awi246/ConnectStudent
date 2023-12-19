@@ -32,6 +32,16 @@ function Feed({ selectedOption }) {
         });
         setPosts(sortedPosts);
         setLoading(false);
+        // const numQuestions = response.data.length;
+        // const numAnswers = response.data.reduce(
+        //   (count, post) => count + post.allAnswers.length,
+        //   0
+        // );
+
+        // console.log(`Number of questions: ${numQuestions}`);
+        // console.log(`Number of answers: ${numAnswers}`);
+
+        //TODO: notification ko lagi ( for future use)
       } catch (error) {
         setError("Error fetching data");
         setLoading(false);
