@@ -8,7 +8,6 @@ import axios from "axios";
 import { IoCloseOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { SlLogout } from "react-icons/sl";
-import { CiSearch } from "react-icons/ci";
 import { Modal } from "react-responsive-modal";
 import logo from "../../../assets/newLogo.svg";
 import alternateImg from "../../../assets/brokeImg.png";
@@ -67,6 +66,9 @@ function Header() {
   const handleSubmit = async () => {
     if (!question.trim() || !selectedSubject) {
       toast.error("Please fill in all required fields");
+      setTimeout(() => {
+        toast.dismiss();
+      }, 3250);
       return;
     }
 
@@ -128,7 +130,7 @@ function Header() {
           <a href="/">
             <img src={logo} alt="logo" width={150} className="mt-6" />
           </a>
-          <SearchBar/>
+          <SearchBar />
           <div className="flex flex-row items-center justify-end gap-6">
             <Button
               color="blue"
