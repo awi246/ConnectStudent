@@ -9,7 +9,7 @@ function Widget() {
       <div className="widget mb-8 w-full">
         <div className="widget__header">
           <h5 className="flex flex-row items-center gap-1 font-semibold">
-            Notifications(3)
+            Notifications(2)
             <IoNotifications className="text-blue-500 text-xl" />
           </h5>
         </div>
