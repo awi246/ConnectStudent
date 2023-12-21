@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 // Feed.js
 import { useEffect, useState } from "react";
-import Box from "./../Box/box";
-import "../../../styles/Feed.css";
-import Post from "./../Post/post";
+import Box from "../../components/UI/Box/box";
+import "../../styles/Feed.css";
+import Post from "../../components/UI/Post/post";
 import axios from "axios";
-import Loading from "../Loading";
-import NotFound from "../../../assets/notFound.gif";
+import Loading from "../../components/UI/Loading";
+import NotFound from "../../assets/notFound.gif";
 
 function Feed({ selectedOption }) {
   const [posts, setPosts] = useState([]);

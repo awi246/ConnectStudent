@@ -2,7 +2,7 @@
 import { useState } from "react";
 import "../../styles/Sidebar.css";
 import SidebarOptions from "../SideBar/sidebarOptions";
-import Feed from "../../components/UI/Feed/feed";
+import Feed from "../../pages/Feed/feed";
 import Header from "../../components/UI/Header/header";
 import Widget from "../RightSide";
 import Image from "../../assets/bgMain.svg";
