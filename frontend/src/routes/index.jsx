@@ -7,7 +7,7 @@ import { login, selectUser } from "../feature/userSlice";
 import {  selectTeacher } from "../feature/teacherSlice";
 import { auth } from "../firebase";
 import Main from "../layouts/Main";
-import Login from "../components/auth/login";
+import Login from "../pages/auth/login";
 
 function TotalRoutes() {
   const user = useSelector(selectUser);
