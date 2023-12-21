@@ -18,6 +18,7 @@ router.post("/", async (req, res) => {
         answer: req.body.answer,
         questionId: req.body.questionId,
         user: req.body.user,
+        createdAt:req.body.createdAt,
       })
       .then(() => {
         res.status(201).send({

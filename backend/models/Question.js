@@ -4,10 +4,16 @@ const QuestionSchema = new mongoose.Schema({
   questionName: String,
   questionUrl: String,
   questionSubject: String,
+  userPhoto:String,
+  userType:String,
   uid:String,
+  postedBy: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    // default: Date.now(),
   },
   answers: {
     type: mongoose.Schema.Types.ObjectId,
