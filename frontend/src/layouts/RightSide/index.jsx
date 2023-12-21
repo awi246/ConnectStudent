@@ -5,11 +5,11 @@ import { IoHeart, IoNotifications } from "react-icons/io5";
 
 function Widget() {
   return (
-    <div className="w-[350px]">
-      <div className="widget mb-8 w-full">
+    <div className="w-[380px]">
+      <div className="widget mb-8 w-full max-h-[400px] overflow-y-auto">
         <div className="widget__header">
           <h5 className="flex flex-row items-center gap-1 font-semibold">
-            Notifications(2)
+            <span className="text-xl">Notifications</span>
             <IoNotifications className="text-blue-500 text-xl" />
           </h5>
         </div>

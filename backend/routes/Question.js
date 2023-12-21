@@ -23,6 +23,10 @@ router.post("/", async (req, res) => {
         questionSubject: req.body.questionSubject,
         questionUrl: req.body.questionUrl,
         uid: req.body.uid,
+        postedBy:req.body.postedBy,
+        createdAt:req.body.createdAt,
+        userType:req.body.userType,
+        userPhoto:req.body.userPhoto
       })
       .then(() => {
         res.status(201).send({

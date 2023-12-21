@@ -82,7 +82,13 @@ function Header() {
       questionName: question,
       questionUrl: inputUrl,
       questionSubject: selectedSubject,
+      userType: user?.type,
+      userPhoto: user?.photo,
       uid: user?.uid,
+      postedBy: user?.userName,
+      createdAt: new Date().toLocaleString("ne-NP", {
+        timeZone: "Asia/Kathmandu",
+      }),
     };
 
     try {

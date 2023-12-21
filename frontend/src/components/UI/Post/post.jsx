@@ -64,6 +64,9 @@ function Post({ post }) {
         answer: answer,
         questionId: post?._id,
         user: user,
+        createdAt: new Date().toLocaleString("ne-NP", {
+          timeZone: "Asia/Kathmandu",
+        }),
       };
       try {
         await axios.post("http://localhost:90/api/answers", body, config);
@@ -98,7 +101,7 @@ function Post({ post }) {
           questionId: post?._id,
           user: user,
         };
-        const response =await axios.post(url, voteData);
+        const response = await axios.post(url, voteData);
         setVoted(voteType);
         toast.success(response?.data?.message);
         setTimeout(() => {
@@ -144,11 +147,11 @@ function Post({ post }) {
       <div className="post rounded-md shadow-lg border hover:bg-[#F2F5FF]">
         <div className="post__info">
           <img
-            src={post?.user?.photo ? post?.user?.photo : BrokenImg}
+            src={post?.userPhoto ? post?.userPhoto : BrokenImg}
             width={48}
             className="rounded-full"
           />
-          <h4>{post?.user?.userName}</h4>
+          <h4>{post?.postedBy}</h4>
           <small>
             <LastSeen date={post?.createdAt} />
           </small>
@@ -183,8 +186,7 @@ function Post({ post }) {
               <div className="modal__question">
                 <h1>{post?.questionName}</h1>
                 <p>
-                  asked by <span className="name">{post?.user?.userName}</span>{" "}
-                  on{" "}
+                  asked by <span className="name">{post?.postedBy}</span> on{" "}
                   <span className="name">
                     {new Date(post?.createdAt).toLocaleString()}
                   </span>
@@ -243,10 +245,7 @@ function Post({ post }) {
                     <IoArrowDown className="text-red-400" />
                   </p>
                 </Tooltip>
-                <span
-                  className="text-sm font-bold text-red-500"
-                   
-                >
+                <span className="text-sm font-bold text-red-500">
                   {post?.votes?.downvote || 0}
                 </span>
               </div>
