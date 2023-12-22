@@ -74,7 +74,7 @@ function Feed({ selectedOption }) {
             <p className="text-xl text-center">Oops. No data found</p>
             <img
               src={NotFound}
-              width={500}
+              // width={500}
               className="bg-transparent m-auto rounded-lg"
               alt="Not Found"
             />

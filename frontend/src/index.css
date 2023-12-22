@@ -56,6 +56,7 @@
 
 .addQuestionModal::-webkit-scrollbar {
   display: none;
+  min-height: 800px;
 }
 ::selection{
   color: rgb(255, 136, 47);

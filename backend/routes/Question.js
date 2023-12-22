@@ -79,4 +79,47 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.put("/:questionId", async (req, res) => {
+  const { questionId } = req.params;
+  const { questionName, questionUrl, questionSubject } = req.body;
+
+  try {
+   
+    if (
+      profanityFilter.isProfane(questionName) ||
+      profanityFilter.isProfane(questionSubject)
+    ) {
+      return res.status(400).json({
+        status: false,
+        message: "Cannot update a question with offensive words",
+      });
+    }
+
+    const updatedQuestion = await questionDB.findByIdAndUpdate(
+      questionId,
+      {
+        $set: {
+          questionName,
+          questionUrl,
+          questionSubject,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedQuestion) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    res.status(200).json({
+      status: true,
+      message: "Question updated successfully",
+      updatedQuestion,
+    });
+  } catch (error) {
+    console.error("Error updating question:", error);
+    res.status(500).json({ status: false, message: "Internal Server Error" });
+  }
+});
+
 module.exports = router;
