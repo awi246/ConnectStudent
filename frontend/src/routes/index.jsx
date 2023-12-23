@@ -1,19 +1,19 @@
 /* eslint-disable no-unused-vars */
-import { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Loading from "../components/UI/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { login, selectUser } from "../feature/userSlice";
-import {  selectTeacher } from "../feature/teacherSlice";
+import { selectTeacher } from "../feature/teacherSlice";
 import { auth } from "../firebase";
 import Main from "../layouts/Main";
 import Login from "../pages/auth/login";
+import NotesSection from "../pages/Notes";
 
 function TotalRoutes() {
   const user = useSelector(selectUser);
-  // console.log("user",user);
   const teacher = useSelector(selectTeacher);
-  // console.log("teacher",teacher);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
@@ -37,15 +37,24 @@ function TotalRoutes() {
   }, [dispatch]);
 
   return (
-    <Suspense fallback={<Loading />}>
-      {loading ? (
-        <Loading />
-      ) : user && user.type === "student" ? (
-        <Main />
-      ) : (
-        <Login />
-      )}
-    </Suspense>
+    <Router>
+      <Suspense fallback={<Loading />}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <Routes>
+            {/* Add a route for the notes-section that is not protected */}
+            <Route path="/notes-section" element={<NotesSection />} />
+
+            {user && user.type === "student" ? (
+              <Route path="/" element={<Main />} />
+            ) : (
+              <Route path="/" element={<Login />} />
+            )}
+          </Routes>
+        )}
+      </Suspense>
+    </Router>
   );
 }
 
