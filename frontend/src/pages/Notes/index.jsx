@@ -9,7 +9,9 @@ const Notes = () => {
   const [selectedOption, setSelectedOption] = useState("");
 
   const handleSelectOption = (option) => {
-  document.title = `Connect Students | ${option.name? option.name: 'Notes Section'}`;
+    document.title = `Connect Students | ${
+      option.name ? option.name : "Notes Section"
+    }`;
     setSelectedOption(option);
   };
   const mainStyle = {
@@ -17,7 +19,9 @@ const Notes = () => {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
   };
-
+  if (!selectedOption) {
+    document.title = "Connect Students | Notes Section";
+  }
 
   return (
     <>
