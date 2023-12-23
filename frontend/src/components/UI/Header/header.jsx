@@ -12,6 +12,7 @@ import { SlLogout } from "react-icons/sl";
 import { Modal } from "react-responsive-modal";
 import logo from "../../../assets/newLogo.svg";
 import alternateImg from "../../../assets/brokeImg.png";
+import notes from "../../../assets/notes.gif";
 
 //styles
 import "../../../styles/Header.css";
@@ -21,6 +22,7 @@ import { logout, selectUser } from "../../../feature/userSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import SearchBar from "../../SearchBar";
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +32,7 @@ function Header() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const Close = <IoCloseOutline className="text-2xl" />
+  const Close = <IoCloseOutline className="text-2xl" />;
   const [subjects, setSubjects] = useState([]);
   const [scrolling, setScrolling] = useState(false);
   const [imageFile, setImageFile] = useState(null);
@@ -171,6 +173,10 @@ function Header() {
           </a>
           <SearchBar />
           <div className="flex flex-row items-center justify-end gap-6">
+            <Link to="/notes-section" target="_blank">
+              <Button color="red">Notes Section</Button>
+            </Link>
+
             <Button
               color="blue"
               className="hover:bg-green-300"

@@ -152,10 +152,15 @@ function Post({ post }) {
 
   const handleEdit = () => {
     openEditModal(post);
-    setQuestion(clickedPost.questionName);
-    setSelectedSubject(clickedPost.questionSubject);
-    setInputUrl(clickedPost.questionUrl);
+  
+    // Set the state directly using the post data
+    if (post) {
+      setQuestion(post.questionName);
+      setSelectedSubject(post.questionSubject);
+      setInputUrl(post.questionUrl);
+    }
   };
+  
 
   const handleDelete = async () => {
     try {
