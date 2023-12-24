@@ -18,3 +18,4 @@ const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 export { auth, provider, signInWithEmailAndPassword };
+
