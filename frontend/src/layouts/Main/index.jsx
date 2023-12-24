@@ -26,7 +26,7 @@ const Main = () => {
         <div className="min-h-screen p-12" style={mainStyle}>
           <div className="flex flex-row justify-between">
             <div className="w-40">
-              <div className="fixed bg-white p-4 shadow-2xl rounded-lg overflow-auto max-h-[600px] sidebar_scrollbar">
+              <div className="fixed bg-white p-4 shadow-2xl rounded-lg overflow-auto max-h-[400px] sidebar_scrollbar">
                 <Sidebar onSelectOption={handleSelectOption} />
               </div>
             </div>
