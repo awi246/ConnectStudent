@@ -173,9 +173,15 @@ function Header() {
           </a>
           <SearchBar />
           <div className="flex flex-row items-center justify-end gap-6">
-            <Link to="/notes-section" target="_blank">
-              <Button color="red">Notes Section</Button>
-            </Link>
+            {user?.type == "student" ? (
+              <Link to="/notes-section" target="_blank">
+                <Button color="red">Notes Section</Button>
+              </Link>
+            ) : (
+              <Link to="#">
+                <Button color="red">Upload Notes</Button>
+              </Link>
+            )}
 
             <Button
               color="blue"
@@ -315,7 +321,7 @@ function Header() {
             <div className="flex flex-col  justify-center items-center mt-4">
               <span className="text-xl">Are you sure you want to logout?</span>
               <p className="text-sm">Your session will expire upon logout.</p>
-              <div className="flex gap-4 mt-10">
+              <div className="flex gap-4 mt-6">
                 <Button onClick={handleLogout} size="lg" color="green">
                   Confirm
                 </Button>

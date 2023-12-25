@@ -10,7 +10,7 @@ function QuoraBox() {
         <img src={user?.photo}  className="rounded-full shadow-sm m-auto"/>
       </div>
       <div className="Box__quora text-center pt-2">
-        <h5 className="font-medium">Hello <span className="text-red-500">{user?.userName}</span>, {' '}Add your question or go through the answer effortlessly!!!</h5>
+        <h5 className="font-medium">Hello <span className="text-red-500">{user?.userName ? user?.userName : 'Teacher'}</span>, {' '}Add your question or go through the answer effortlessly!!!</h5>
       </div>
     </div>
   );

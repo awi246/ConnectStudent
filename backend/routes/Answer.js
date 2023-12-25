@@ -6,12 +6,12 @@ const Filter = require("@duckodas/badwords");
 const profanityFilter = new Filter();
 
 router.post("/", async (req, res) => {
-  if (profanityFilter.isProfane(req.body.answer)) {
-    return res.status(400).send({
-      status: false,
-      message: "Cannot add answer with offensive words",
-    });
-  }
+  // if (profanityFilter.isProfane(req.body.answer)) {
+  //   return res.status(400).send({
+  //     status: false,
+  //     message: "Cannot add answer with offensive words",
+  //   });
+  // }
   try {
     await answerDB
       .create({
