@@ -122,4 +122,25 @@ router.put("/:questionId", async (req, res) => {
   }
 });
 
+router.delete("/:questionId", async (req, res) => {
+  const { questionId } = req.params;
+
+  try {
+    const deletedQuestion = await questionDB.findByIdAndDelete(questionId);
+
+    if (!deletedQuestion) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    res.status(200).json({
+      status: true,
+      message: "Question deleted successfully",
+      deletedQuestion,
+    });
+  } catch (error) {
+    console.error("Error deleting question:", error);
+    res.status(500).json({ status: false, message: "Internal Server Error" });
+  }
+});
+
 module.exports = router;

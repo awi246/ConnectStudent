@@ -13,6 +13,7 @@ import NotesSection from "../pages/Notes";
 
 function TotalRoutes() {
   const user = useSelector(selectUser);
+  console.log("user",user);
   const teacher = useSelector(selectTeacher);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -23,11 +24,11 @@ function TotalRoutes() {
       if (authUser) {
         dispatch(
           login({
-            userName: authUser.displayName,
+            userName: authUser.displayName ?authUser.displayName : 'Teacher',
             photo: authUser.photoURL,
             email: authUser.email,
             uid: authUser.uid,
-            type: "student",
+            type: authUser.photoURL?"student": "teacher",
           })
         );
       }
@@ -43,10 +44,9 @@ function TotalRoutes() {
           <Loading />
         ) : (
           <Routes>
-            {/* Add a route for the notes-section that is not protected */}
             <Route path="/notes-section" element={<NotesSection />} />
 
-            {user && user.type === "student" ? (
+            {user ? (
               <Route path="/" element={<Main />} />
             ) : (
               <Route path="/" element={<Login />} />

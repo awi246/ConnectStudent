@@ -13,7 +13,7 @@ import {
 import { CiChat2 } from "react-icons/ci";
 // import { FiMoreHorizontal } from "react-icons/fi";
 import { CiShare2 } from "react-icons/ci";
-import BrokenImg from "../../../assets/brokeImg.png";
+import BrokenImg from "../../../assets/teacher.svg";
 import ReactHtmlParser from "html-react-parser";
 import ReactTimeAgo from "react-time-ago";
 import { ToastContainer, toast } from "react-toastify";
@@ -152,8 +152,6 @@ function Post({ post }) {
 
   const handleEdit = () => {
     openEditModal(post);
-  
-    // Set the state directly using the post data
     if (post) {
       setQuestion(post.questionName);
       setSelectedSubject(post.questionSubject);
@@ -167,8 +165,12 @@ function Post({ post }) {
       const response = await axios.delete(
         `http://localhost:90/api/questions/${post?._id}`
       );
-      if (response.data.status) {
+      console.log("response",response);
+      if (response.status == 200) {
         toast.success("Question deleted successfully");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 3000);
       } else {
         toast.error("Failed to delete question");
       }
@@ -243,14 +245,15 @@ function Post({ post }) {
           </small>
         </div>
         <div className="post__body">
-          <div className="post__question">
+          <div className="post__question flex justify-between items-center">
             <p>{post?.questionName}</p>
-            <button
+            <Button
               onClick={() => setIsModalOpen(true)}
-              className="post__btnAnswer"
+              size="sm"
+              className=""
             >
               Answer
-            </button>
+            </Button>
             <Modal
               open={isModalOpen}
               closeIcon={<IoClose />}

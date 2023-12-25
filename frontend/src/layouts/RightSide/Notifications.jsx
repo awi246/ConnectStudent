@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../../styles/WidgetContent.css";
 import NotificationLoading from "../../components/UI/Loading/NotificationLoading/notificationLoading";
 import { toast } from "react-toastify";
+import BrokenImg from "../../assets/teacher.svg";
 
 function Notification() {
   const [questions, setQuestions] = useState([]);
@@ -34,7 +35,7 @@ function Notification() {
           <>
           <div key={question._id} className="flex flex-row p-2">
             <img
-              src={question?.userPhoto}
+              src={question?.userPhoto ?question?.userPhoto : BrokenImg}
               alt="user_photo"
               className="rounded-full w-12 h-12"
             />
