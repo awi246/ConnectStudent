@@ -203,6 +203,9 @@
   min-width: 600px;
 }
 
+.addQuestionModal {
+  min-height: 455px;
+}
 @media only screen and (max-width: 600px) {
   .qHeader__icons {
     display: none;

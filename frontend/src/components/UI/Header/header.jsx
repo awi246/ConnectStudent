@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 //inbuild library
 import { useEffect, useState } from "react";
 
@@ -8,10 +9,10 @@ import axios from "axios";
 import { IoCloseOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { SlLogout } from "react-icons/sl";
-import { CiSearch } from "react-icons/ci";
 import { Modal } from "react-responsive-modal";
 import logo from "../../../assets/newLogo.svg";
 import alternateImg from "../../../assets/brokeImg.png";
+import notes from "../../../assets/notes.gif";
 
 //styles
 import "../../../styles/Header.css";
@@ -21,6 +22,7 @@ import { logout, selectUser } from "../../../feature/userSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import SearchBar from "../../SearchBar";
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,10 +32,42 @@ function Header() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const Close = <IoCloseOutline />;
+  const Close = <IoCloseOutline className="text-2xl" />;
   const [subjects, setSubjects] = useState([]);
-
   const [scrolling, setScrolling] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const resetForm = () => {
+    setQuestion("");
+    setSelectedSubject("");
+    setImagePreview(null);
+  };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (!allowedTypes.includes(file.type)) {
+        toast.error("Invalid file type. Please upload an image.");
+        e.target.value = "";
+        setImageFile(null);
+        setImagePreview(null);
+        return;
+      }
+
+      setImageFile(file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImageFile(null);
+      setImagePreview(null);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,6 +101,9 @@ function Header() {
   const handleSubmit = async () => {
     if (!question.trim() || !selectedSubject) {
       toast.error("Please fill in all required fields");
+      setTimeout(() => {
+        toast.dismiss();
+      }, 3250);
       return;
     }
 
@@ -80,7 +117,13 @@ function Header() {
       questionName: question,
       questionUrl: inputUrl,
       questionSubject: selectedSubject,
+      userType: user?.type,
+      userPhoto: user?.photo,
       uid: user?.uid,
+      postedBy: user?.userName,
+      createdAt: new Date().toLocaleString("ne-NP", {
+        timeZone: "Asia/Kathmandu",
+      }),
     };
 
     try {
@@ -128,8 +171,18 @@ function Header() {
           <a href="/">
             <img src={logo} alt="logo" width={150} className="mt-6" />
           </a>
-          <SearchBar/>
+          <SearchBar />
           <div className="flex flex-row items-center justify-end gap-6">
+            {user?.type == "student" ? (
+              <Link to="/notes-section" target="_blank">
+                <Button color="red">Notes Section</Button>
+              </Link>
+            ) : (
+              <Link to="#">
+                <Button color="red">Upload Notes</Button>
+              </Link>
+            )}
+
             <Button
               color="blue"
               className="hover:bg-green-300"
@@ -154,7 +207,6 @@ function Header() {
             }}
             animationDuration={800}
             onClose={() => setIsModalOpen(false)}
-            closeOnEsc
             center
             closeOnOverlayClick={false}
             styles={{
@@ -163,38 +215,34 @@ function Header() {
               },
             }}
           >
-            <div className="modal__title">
-              <h5>Add Question</h5>
-              <h5>Share Link</h5>
-            </div>
-
-            <div className="">
-              <div className="">
-                {/* <RxAvatar size={40}/> */}
-                <div className="modal__scope w-full flex justify-between p-3">
-                  <label htmlFor="subjects" className="font-medium">
-                    Select Subject:
-                  </label>
-                  <select
-                    id="subjects"
-                    value={selectedSubject}
-                    className="font-medium"
-                    onChange={(e) => setSelectedSubject(e.target.value)}
-                  >
-                    <option value="">Please choose subject</option>
-                    {subjects.map((subject) => (
-                      <option key={subject.id} value={subject.name}>
-                        {subject.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            <div className="p-5">
+              <div className="text-right mb-2">
+                <label htmlFor="subjects" className="font-medium mr-2">
+                  Subject<span className="text-red-500">*</span>:
+                </label>
+                <select
+                  id="subjects"
+                  value={selectedSubject}
+                  className="border p-2 rounded-md"
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                >
+                  <option value="">Please assign subject</option>
+                  {subjects.map((subject) => (
+                    <option key={subject.id} value={subject.name}>
+                      {subject.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <input
+
+              <label htmlFor="imageUpload" className="font-medium ">
+                Question<span className="required text-red-500">*</span>:
+              </label>
+              <textarea
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 type=" text"
-                className="p-3 mb-5 mt-4 shadow-lg border rounded-md w-full"
+                className="p-3 whitespace-pre-wrap mt-4 shadow-lg border rounded-md w-full h-auto resize-none "
                 placeholder="Start your question with 'What', 'How', 'Why', etc. "
               />
               <div
@@ -203,34 +251,31 @@ function Header() {
                   flexDirection: "column",
                 }}
               >
+                <label htmlFor="imageUpload" className="font-medium mt-4">
+                  Upload Question Photo(optional):
+                </label>
                 <input
-                  type="text"
-                  value={inputUrl}
-                  onChange={(e) => setInputUrl(e.target.value)}
-                  className="p-3 mb-5 mt-4 shadow-lg border rounded-md w-full"
-                  placeholder="Optional: Inclue a link that gives context or the image"
+                  type="file"
+                  accept="image"
+                  name="imageUpload"
+                  onChange={handleImageChange}
+                  className="p-3 mb-2 mt-4 shadow-lg border rounded-md w-full"
+                  placeholder="Optional: Include a link that gives context or the image"
                 />
-                {inputUrl !== "" && (
+                {imagePreview && (
                   <img
-                    width={300}
-                    src={inputUrl}
-                    alt="displayimage"
-                    onError={(e) => {
-                      e.target.src = alternateImg;
-                    }}
+                    src={imagePreview}
+                    alt="Image Preview"
+                    className="mt-2 rounded-md shadow-lg"
+                    style={{ maxWidth: "100%" }}
                   />
                 )}
               </div>
+              <p className="text-red-500 text-sm">
+                Note: * fields are marked as required
+              </p>
             </div>
-            <div className="modal__buttons">
-              <Button
-                className=""
-                color="red"
-                size="lg"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Cancel
-              </Button>
+            <div className="flex flex-row justify-center items-center gap-5">
               <Button
                 onClick={handleSubmit}
                 type="submit"
@@ -238,6 +283,17 @@ function Header() {
                 className="hover:bg-green-400"
               >
                 Add Question
+              </Button>
+              <Button
+                className=""
+                color="red"
+                size="lg"
+                onClick={() => {
+                  setIsModalOpen(false);
+                  resetForm();
+                }}
+              >
+                Cancel
               </Button>
             </div>
           </Modal>
@@ -262,9 +318,10 @@ function Header() {
               },
             }}
           >
-            <div className="flex flex-col gap-8 justify-center items-center mt-4">
-              <span className="text-xl">Are you sure you want to logout</span>
-              <div className="flex gap-10">
+            <div className="flex flex-col  justify-center items-center mt-4">
+              <span className="text-xl">Are you sure you want to logout?</span>
+              <p className="text-sm">Your session will expire upon logout.</p>
+              <div className="flex gap-4 mt-6">
                 <Button onClick={handleLogout} size="lg" color="green">
                   Confirm
                 </Button>

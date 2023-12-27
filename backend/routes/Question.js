@@ -23,6 +23,10 @@ router.post("/", async (req, res) => {
         questionSubject: req.body.questionSubject,
         questionUrl: req.body.questionUrl,
         uid: req.body.uid,
+        postedBy:req.body.postedBy,
+        createdAt:req.body.createdAt,
+        userType:req.body.userType,
+        userPhoto:req.body.userPhoto
       })
       .then(() => {
         res.status(201).send({
@@ -72,6 +76,70 @@ router.get("/", async (req, res) => {
       status: false,
       message: "Unexpected error",
     });
+  }
+});
+
+router.put("/:questionId", async (req, res) => {
+  const { questionId } = req.params;
+  const { questionName, questionUrl, questionSubject } = req.body;
+
+  try {
+   
+    if (
+      profanityFilter.isProfane(questionName) ||
+      profanityFilter.isProfane(questionSubject)
+    ) {
+      return res.status(400).json({
+        status: false,
+        message: "Cannot update a question with offensive words",
+      });
+    }
+
+    const updatedQuestion = await questionDB.findByIdAndUpdate(
+      questionId,
+      {
+        $set: {
+          questionName,
+          questionUrl,
+          questionSubject,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedQuestion) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    res.status(200).json({
+      status: true,
+      message: "Question updated successfully",
+      updatedQuestion,
+    });
+  } catch (error) {
+    console.error("Error updating question:", error);
+    res.status(500).json({ status: false, message: "Internal Server Error" });
+  }
+});
+
+router.delete("/:questionId", async (req, res) => {
+  const { questionId } = req.params;
+
+  try {
+    const deletedQuestion = await questionDB.findByIdAndDelete(questionId);
+
+    if (!deletedQuestion) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    res.status(200).json({
+      status: true,
+      message: "Question deleted successfully",
+      deletedQuestion,
+    });
+  } catch (error) {
+    console.error("Error deleting question:", error);
+    res.status(500).json({ status: false, message: "Internal Server Error" });
   }
 });
 

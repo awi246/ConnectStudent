@@ -18,6 +18,9 @@
 ::-webkit-scrollbar {
   width: 10px;
 }
+.widget::-webkit-scrollbar {
+  width: 6px;
+}
 .sidebar_scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -53,6 +56,7 @@
 
 .addQuestionModal::-webkit-scrollbar {
   display: none;
+  min-height: 800px;
 }
 ::selection{
   color: rgb(255, 136, 47);

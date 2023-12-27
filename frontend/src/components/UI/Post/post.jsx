@@ -4,11 +4,16 @@ import ReactQuill from "react-quill";
 import { Modal } from "react-responsive-modal";
 import axios from "axios";
 import { Tooltip } from "@material-tailwind/react";
-import { IoArrowDown, IoArrowUp, IoClose } from "react-icons/io5";
+import {
+  IoArrowDown,
+  IoArrowUp,
+  IoClose,
+  IoCloseOutline,
+} from "react-icons/io5";
 import { CiChat2 } from "react-icons/ci";
 // import { FiMoreHorizontal } from "react-icons/fi";
 import { CiShare2 } from "react-icons/ci";
-import BrokenImg from "../../../assets/brokeImg.png";
+import BrokenImg from "../../../assets/teacher.svg";
 import ReactHtmlParser from "html-react-parser";
 import ReactTimeAgo from "react-time-ago";
 import { ToastContainer, toast } from "react-toastify";
@@ -29,6 +34,35 @@ function LastSeen({ date }) {
 
 function Post({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const Close = <IoCloseOutline className="text-2xl" />;
+  const [inputUrl, setInputUrl] = useState("");
+  const [question, setQuestion] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+  const [subjects, setSubjects] = useState([]);
+  const [clickedPost, setClickedPost] = useState(null);
+  const openEditModal = (post) => {
+    setClickedPost(post);
+    setIsEditModalOpen(true);
+  };
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        const response = await axios.get("http://localhost:90/api/subjects");
+        setSubjects(response.data.data);
+      } catch (error) {
+        // console.error("Error fetching subjects:", error);
+      }
+    };
+
+    fetchSubjects();
+  }, []);
+  const resetForm = () => {
+    setQuestion("");
+    setSelectedSubject("");
+    setImagePreview(null);
+  };
   const [answer, setAnswer] = useState("");
   const [voted, setVoted] = useState(null);
   // const [showOptions, setShowOptions] = useState(false);
@@ -64,6 +98,9 @@ function Post({ post }) {
         answer: answer,
         questionId: post?._id,
         user: user,
+        createdAt: new Date().toLocaleString("ne-NP", {
+          timeZone: "Asia/Kathmandu",
+        }),
       };
       try {
         await axios.post("http://localhost:90/api/answers", body, config);
@@ -98,7 +135,7 @@ function Post({ post }) {
           questionId: post?._id,
           user: user,
         };
-        const response =await axios.post(url, voteData);
+        const response = await axios.post(url, voteData);
         setVoted(voteType);
         toast.success(response?.data?.message);
         setTimeout(() => {
@@ -114,21 +151,75 @@ function Post({ post }) {
   };
 
   const handleEdit = () => {
-    // console.log("Edit button clicked");
+    openEditModal(post);
+    if (post) {
+      setQuestion(post.questionName);
+      setSelectedSubject(post.questionSubject);
+      setInputUrl(post.questionUrl);
+    }
   };
+  
 
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
         `http://localhost:90/api/questions/${post?._id}`
       );
-      if (response.data.status) {
+      console.log("response",response);
+      if (response.status == 200) {
         toast.success("Question deleted successfully");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 3000);
       } else {
         toast.error("Failed to delete question");
       }
     } catch (error) {
       toast.error("Failed to delete question");
+    }
+  };
+  const handleEditSubmit = async () => {
+    if (!clickedPost || !question.trim() || !selectedSubject) {
+      toast.error("Invalid post data");
+      return;
+    }
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = {
+      questionName: question,
+      questionUrl: inputUrl,
+      questionSubject: selectedSubject,
+      userType: user?.type,
+      userPhoto: user?.photo,
+      uid: user?.uid,
+      postedBy: user?.userName,
+      createdAt: new Date().toLocaleString("ne-NP", {
+        timeZone: "Asia/Kathmandu",
+      }),
+    };
+
+    try {
+      const response = await axios.put(
+        `http://localhost:90/api/questions/${clickedPost._id}`,
+        body,
+        config
+      );
+
+      setIsEditModalOpen(false);
+      toast.success(response.data.message);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 3000);
+    } catch (error) {
+      setIsEditModalOpen(false);
+      toast.error(
+        error?.response?.data?.message || "Failed to update the question"
+      );
     }
   };
 
@@ -144,24 +235,25 @@ function Post({ post }) {
       <div className="post rounded-md shadow-lg border hover:bg-[#F2F5FF]">
         <div className="post__info">
           <img
-            src={post?.user?.photo ? post?.user?.photo : BrokenImg}
+            src={post?.userPhoto ? post?.userPhoto : BrokenImg}
             width={48}
             className="rounded-full"
           />
-          <h4>{post?.user?.userName}</h4>
-          <small>
-            <LastSeen date={post?.createdAt} />
+          <h4>{post?.postedBy}</h4>
+          <small className="flex">
+            [<LastSeen date={post?.createdAt} />]
           </small>
         </div>
         <div className="post__body">
-          <div className="post__question">
+          <div className="post__question flex justify-between items-center">
             <p>{post?.questionName}</p>
-            <button
+            <Button
               onClick={() => setIsModalOpen(true)}
-              className="post__btnAnswer"
+              size="sm"
+              className=""
             >
               Answer
-            </button>
+            </Button>
             <Modal
               open={isModalOpen}
               closeIcon={<IoClose />}
@@ -183,8 +275,7 @@ function Post({ post }) {
               <div className="modal__question">
                 <h1>{post?.questionName}</h1>
                 <p>
-                  asked by <span className="name">{post?.user?.userName}</span>{" "}
-                  on{" "}
+                  asked by <span className="name">{post?.postedBy}</span> on{" "}
                   <span className="name">
                     {new Date(post?.createdAt).toLocaleString()}
                   </span>
@@ -207,6 +298,106 @@ function Post({ post }) {
                 <button onClick={handleSubmit} type="submit" className="add">
                   Add Answer
                 </button>
+              </div>
+            </Modal>
+            <Modal
+              open={isEditModalOpen}
+              closeIcon={Close}
+              classNames={{
+                modal: "addQuestionModal",
+                modalAnimationIn: "customEnterModalAnimation",
+                modalAnimationOut: "customLeaveModalAnimation",
+              }}
+              animationDuration={800}
+              onClose={() => setIsEditModalOpen(false)}
+              center
+              closeOnOverlayClick={false}
+              styles={{
+                overlay: {
+                  height: "auto",
+                },
+              }}
+            >
+              <div className="p-5">
+                <div className="text-right mb-2">
+                  <label htmlFor="subjects" className="font-medium mr-2">
+                    Subject<span className="text-red-500">*</span>:
+                  </label>
+                  <select
+                    id="subjects"
+                    value={selectedSubject}
+                    className="border p-2 rounded-md"
+                    onChange={(e) => setSelectedSubject(e.target.value)}
+                  >
+                    <option value="">Please assign subject</option>
+                    {subjects.map((subject) => (
+                      <option key={subject.id} value={subject.name}>
+                        {subject.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <label htmlFor="imageUpload" className="font-medium ">
+                  Question<span className="required text-red-500">*</span>:
+                </label>
+                <textarea
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  type=" text"
+                  className="p-3 whitespace-pre-wrap mt-4 shadow-lg border rounded-md w-full h-auto resize-none "
+                  placeholder="Start your question with 'What', 'How', 'Why', etc. "
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <label htmlFor="imageUpload" className="font-medium mt-4">
+                    Upload Question Photo(optional):
+                  </label>
+                  <input
+                    type="file"
+                    accept="image"
+                    name="imageUpload"
+                    // onChange={handleImageChange}
+                    className="p-3 mb-2 mt-4 shadow-lg border rounded-md w-full"
+                    placeholder="Optional: Include a link that gives context or the image"
+                  />
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Image Preview"
+                      className="mt-2 rounded-md shadow-lg"
+                      style={{ maxWidth: "100%" }}
+                    />
+                  )}
+                </div>
+                <p className="text-red-500 text-sm">
+                  Note: * fields are marked as required
+                </p>
+              </div>
+              <div className="flex flex-row justify-center items-center gap-5">
+                <Button
+                  onClick={handleEditSubmit}
+                  type="submit"
+                  size="lg"
+                  className="hover:bg-green-400"
+                >
+                  Update Question
+                </Button>
+                <Button
+                  className=""
+                  color="red"
+                  size="lg"
+                  onClick={() => {
+                    setIsEditModalOpen(false);
+                    resetForm();
+                  }}
+                >
+                  Cancel
+                </Button>
               </div>
             </Modal>
           </div>
@@ -243,10 +434,7 @@ function Post({ post }) {
                     <IoArrowDown className="text-red-400" />
                   </p>
                 </Tooltip>
-                <span
-                  className="text-sm font-bold text-red-500"
-                   
-                >
+                <span className="text-sm font-bold text-red-500">
                   {post?.votes?.downvote || 0}
                 </span>
               </div>
