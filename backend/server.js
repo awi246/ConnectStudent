@@ -3,9 +3,10 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 90; // Use environment variable for port or default to 90
 const db = require("./db");
 const router = require("./routes");
+const PORT = process.env.PORT || 90; // Use environment variable for port or default to 90
+
 
 // Database connection
 db.connect();
