@@ -13,7 +13,7 @@ import NotesSection from "../pages/Notes";
 
 function TotalRoutes() {
   const user = useSelector(selectUser);
-  console.log("user",user);
+  // console.log("user",user);
   const teacher = useSelector(selectTeacher);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

@@ -1,14 +1,25 @@
 const express = require("express");
 const router = express.Router();
-
+const fs = require("fs");
+const path = require("path");
 const questionDB = require("../models/Question");
-const Filter = require("@duckodas/badwords");
+const Filter = require("bad-words");
+
+const profanityWordsFilePath = path.join(__dirname, "profanityWords.json");
+const customProfanityWords = JSON.parse(
+  fs.readFileSync(profanityWordsFilePath)
+);
+
 const profanityFilter = new Filter();
+customProfanityWords.forEach((wordObject) => {
+  const { value } = wordObject;
+  profanityFilter.addWords(value);
+});
 
 router.post("/", async (req, res) => {
   if (
-    profanityFilter.isProfane(req.body.questionName) ||
-    profanityFilter.isProfane(req.body.questionSubject)
+    profanityFilter.isProfane(req.body.questionName.toLowerCase()) ||
+    profanityFilter.isProfane(req.body.questionSubject.toLowerCase())
   ) {
     return res.status(400).send({
       status: false,
@@ -23,10 +34,10 @@ router.post("/", async (req, res) => {
         questionSubject: req.body.questionSubject,
         questionUrl: req.body.questionUrl,
         uid: req.body.uid,
-        postedBy:req.body.postedBy,
-        createdAt:req.body.createdAt,
-        userType:req.body.userType,
-        userPhoto:req.body.userPhoto
+        postedBy: req.body.postedBy,
+        createdAt: req.body.createdAt,
+        userType: req.body.userType,
+        userPhoto: req.body.userPhoto,
       })
       .then(() => {
         res.status(201).send({
@@ -84,7 +95,6 @@ router.put("/:questionId", async (req, res) => {
   const { questionName, questionUrl, questionSubject } = req.body;
 
   try {
-   
     if (
       profanityFilter.isProfane(questionName) ||
       profanityFilter.isProfane(questionSubject)

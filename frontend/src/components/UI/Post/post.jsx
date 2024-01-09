@@ -158,14 +158,13 @@ function Post({ post }) {
       setInputUrl(post.questionUrl);
     }
   };
-  
 
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
         `http://localhost:90/api/questions/${post?._id}`
       );
-      console.log("response",response);
+      // console.log("response",response);
       if (response.status == 200) {
         toast.success("Question deleted successfully");
         setTimeout(() => {
@@ -247,11 +246,7 @@ function Post({ post }) {
         <div className="post__body">
           <div className="post__question flex justify-between items-center">
             <p>{post?.questionName}</p>
-            <Button
-              onClick={() => setIsModalOpen(true)}
-              size="sm"
-              className=""
-            >
+            <Button onClick={() => setIsModalOpen(true)} size="sm" className="">
               Answer
             </Button>
             <Modal

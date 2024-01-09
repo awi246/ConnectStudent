@@ -167,13 +167,13 @@ function Header() {
           scrolling ? "" : "shadow-xl"
         }`}
       >
-        <div className="flex flex-row items-center gap-16">
+        <div className="flex flex-row items-center justify-between gap-80">
           <a href="/">
             <img src={logo} alt="logo" width={150} className="mt-6" />
           </a>
-          <SearchBar />
+          {/* <SearchBar /> */}
           <div className="flex flex-row items-center justify-end gap-6">
-            {user?.type == "student" ? (
+            {/* {user?.type == "student" ? (
               <Link to="/notes-section" target="_blank">
                 <Button color="red">Notes Section</Button>
               </Link>
@@ -181,7 +181,7 @@ function Header() {
               <Link to="#">
                 <Button color="red">Upload Notes</Button>
               </Link>
-            )}
+            )} */}
 
             <Button
               color="blue"
