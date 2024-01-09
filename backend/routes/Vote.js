@@ -102,15 +102,31 @@ router.get("/check", async (req, res) => {
       user: req.query.userId,
     });
 
+    const question = await questionDB.findById(req.query.questionId);
+
+    if (!question) {
+      return res.status(404).send({
+        status: false,
+        message: "Question not found",
+      });
+    }
+
+    const votes = {
+      upvote: question.votes.upvote,
+      downvote: question.votes.downvote,
+    };
+
     if (existingVote) {
       res.status(200).send({
         status: true,
         voteType: existingVote.voteType,
+        votes: votes,
       });
     } else {
       res.status(200).send({
         status: true,
         voteType: null,
+        votes: votes,
       });
     }
   } catch (error) {
@@ -120,5 +136,6 @@ router.get("/check", async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;
