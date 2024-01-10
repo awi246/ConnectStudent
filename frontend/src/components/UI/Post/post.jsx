@@ -34,6 +34,7 @@ function LastSeen({ date }) {
 
 function Post({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const Close = <IoCloseOutline className="text-2xl" />;
   const [inputUrl, setInputUrl] = useState("");
@@ -160,11 +161,11 @@ function Post({ post }) {
   };
 
   const handleDelete = async () => {
+    setDeleteConfirmModal(false);
     try {
       const response = await axios.delete(
         `http://localhost:90/api/questions/${post?._id}`
       );
-      // console.log("response",response);
       if (response.status == 200) {
         toast.success("Question deleted successfully");
         setTimeout(() => {
@@ -449,7 +450,7 @@ function Post({ post }) {
                   <div className="flex flex-row gap-4">
                     {user.type === "teacher" && (
                       <Button
-                        onClick={handleDelete}
+                        onClick={() => setDeleteConfirmModal(true)}
                         className="option-button"
                         size="sm"
                       >
@@ -537,6 +538,46 @@ function Post({ post }) {
           ))}
         </div>
       </div>
+      <Modal
+        open={deleteConfirmModal}
+        closeIcon={Close}
+        classNames={{
+          modal: "logoutModal",
+          overlayAnimationIn: "customEnterOverlayAnimation",
+          overlayAnimationOut: "customLeaveOverlayAnimation",
+          modalAnimationIn: "customEnterModalAnimation",
+          modalAnimationOut: "customLeaveModalAnimation",
+        }}
+        animationDuration={400}
+        onClose={() => setDeleteConfirmModal(false)}
+        closeOnEsc
+        center
+        closeOnOverlayClick={false}
+        styles={{
+          overlay: {
+            height: "auto",
+          },
+        }}
+      >
+        <div className="flex flex-col  justify-center items-center mt-4">
+          <span className="text-xl">
+            Are you sure you want delete this post?
+          </span>
+          <p className="text-sm">This post will be deleted permanently.</p>
+          <div className="flex gap-4 mt-6">
+            <Button onClick={handleDelete} size="lg" color="green">
+              Confirm
+            </Button>
+            <Button
+              onClick={() => setDeleteConfirmModal(false)}
+              size="lg"
+              color="red"
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }

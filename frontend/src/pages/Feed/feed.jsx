@@ -50,12 +50,12 @@ function Feed({ selectedOption }) {
   useEffect(() => {
     const startIndex = currentPage * postsPerPage;
     const endIndex = startIndex + postsPerPage;
-    const slicedPosts = posts
+    const filteredAndSlicedPosts = posts
       .filter(
         (post) => !selectedOption || post.questionSubject === selectedOption
       )
       .slice(startIndex, endIndex);
-    setDisplayedPosts(slicedPosts);
+    setDisplayedPosts(filteredAndSlicedPosts);
   }, [currentPage, posts, selectedOption]);
 
   return (
@@ -83,18 +83,26 @@ function Feed({ selectedOption }) {
       {!loading && !error && (
         <div className="pagination-container mt-auto">
           <ReactPaginate
-            previousLabel={ '← Previous' }
-            nextLabel={ 'Next →' }
+            previousLabel={"← Previous"}
+            nextLabel={"Next →"}
             breakLabel={"..."}
-            pageCount={Math.ceil(posts.length / postsPerPage)}
+            pageCount={Math.ceil(
+              posts.filter(
+                (post) =>
+                  !selectedOption || post.questionSubject === selectedOption
+              ).length / postsPerPage
+            )}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
-            onPageChange={({ selected }) => setCurrentPage(selected)}
-            containerClassName={'pagination'}
-            previousLinkClassName={ 'pagination_link' }
-            nextLinkClassName={ 'pagination_link' }
-            disabledClassName={ 'pagination_link--disabled' }
-            activeClassName={ 'pagination_link--active' }
+            onPageChange={({ selected }) => {
+              setCurrentPage(selected);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            containerClassName={"pagination"}
+            previousLinkClassName={"pagination_link"}
+            nextLinkClassName={"pagination_link"}
+            disabledClassName={"pagination_link--disabled"}
+            activeClassName={"pagination_link--active"}
           />
         </div>
       )}
