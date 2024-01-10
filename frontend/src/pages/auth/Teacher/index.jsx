@@ -371,6 +371,7 @@ const TeacherDrawer = ({ open, onClose }) => {
               type="submit"
               className="mt-6"
               size="lg"
+              color="orange"
               fullWidth
               disabled={loadingRegister}
             >
