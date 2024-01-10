@@ -198,7 +198,7 @@ const TeacherDrawer = ({ open, onClose }) => {
                 <div className="relative">
                   <Input
                     variant="standard"
-                    type={showPassword ? "text" : "password"}
+                    type={showLoginPassword ? "text" : "password"}
                     label="Password"
                     name="password"
                     value={formData.password}

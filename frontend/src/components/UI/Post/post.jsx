@@ -441,9 +441,9 @@ function Post({ post }) {
             </p>
 
             <div className="post__footerLeft flex items-center gap-2">
-              <p className="cursor-pointer mr-2">
+              {/* <p className="cursor-pointer mr-2">
                 <CiShare2 />
-              </p>
+              </p> */}
 
               {user && (
                 <>
