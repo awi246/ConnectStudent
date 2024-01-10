@@ -13,7 +13,6 @@ import NotesSection from "../pages/Notes";
 
 function TotalRoutes() {
   const user = useSelector(selectUser);
-  console.log("user",user);
   const teacher = useSelector(selectTeacher);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -24,11 +23,17 @@ function TotalRoutes() {
       if (authUser) {
         dispatch(
           login({
-            userName: authUser.displayName ?authUser.displayName : 'Teacher',
+            userName: authUser.displayName ? authUser.displayName : "Teacher",
             photo: authUser.photoURL,
             email: authUser.email,
             uid: authUser.uid,
-            type: authUser.photoURL?"student": "teacher",
+            type: authUser.photoURL ? "student" : "teacher",
+            role:
+              authUser.uid === "3teHvZwJW0NKrWALyQjSM0RcDj52" ||
+              authUser.uid === "MBoMt7JeegPDRViNmI6KcFi8fJK2" ||
+              authUser.uid === "rdo53kUSqYfGo1GdQyDcp5Y3uCE2"
+                ? "Admin"
+                : "",
           })
         );
       }

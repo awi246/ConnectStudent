@@ -7,20 +7,26 @@ import Post from "../../components/UI/Post/post";
 import axios from "axios";
 import Loading from "../../components/UI/Loading";
 import NotFound from "../../assets/notFound.gif";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../feature/userSlice";
 
 function Feed({ selectedOption }) {
+  const user = useSelector(selectUser);
+  const uid = user?.uid;
+  // console.log("uid", uid);
   const [posts, setPosts] = useState([]);
   const [displayedPosts, setDisplayedPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const postsPerPage = 5;
-
   useEffect(() => {
     async function getQuestions() {
       try {
         let url = "http://localhost:90/api/questions";
-        if (selectedOption) {
+        if (selectedOption === "myPosts" && uid) {
+          url += `?uid=${uid}`;
+        } else if (selectedOption) {
           url += `?questionSubject=${selectedOption}`;
         }
         const response = await axios.get(url);
@@ -38,6 +44,7 @@ function Feed({ selectedOption }) {
         setPosts(sortedPosts);
         setCurrentPage(0);
         setLoading(false);
+        setError(null);
       } catch (error) {
         setError("Error fetching data");
         setLoading(false);
@@ -45,18 +52,28 @@ function Feed({ selectedOption }) {
     }
 
     getQuestions();
-  }, [selectedOption]);
+  }, [selectedOption, uid]);
 
   useEffect(() => {
     const startIndex = currentPage * postsPerPage;
     const endIndex = startIndex + postsPerPage;
-    const filteredAndSlicedPosts = posts
-      .filter(
-        (post) => !selectedOption || post.questionSubject === selectedOption
-      )
-      .slice(startIndex, endIndex);
+
+    let filteredAndSlicedPosts = [];
+
+    if (!selectedOption) {
+      filteredAndSlicedPosts = posts.slice(startIndex, endIndex);
+    } else {
+      filteredAndSlicedPosts = posts
+        .filter(
+          (post) =>
+            post.questionSubject === selectedOption ||
+            (selectedOption === "myPosts" && post.uid === uid)
+        )
+        .slice(startIndex, endIndex);
+    }
+
     setDisplayedPosts(filteredAndSlicedPosts);
-  }, [currentPage, posts, selectedOption]);
+  }, [currentPage, posts, selectedOption, uid]);
 
   return (
     <div className="feed">
@@ -67,19 +84,22 @@ function Feed({ selectedOption }) {
         displayedPosts.map((post, index) => <Post key={index} post={post} />)}
       {!loading &&
         !error &&
+        selectedOption &&
         posts.filter(
-          (post) => !selectedOption || post.questionSubject === selectedOption
+          (post) =>
+            post.questionSubject === selectedOption ||
+            (selectedOption === "myPosts" && post.uid === uid)
         ).length === 0 && (
           <div className="mt-6 flex flex-col justify-center">
-            <p className="text-xl text-center">Oops. No data found</p>
+            <p className="text-xl text-center">Oops!!! No data found</p>
             <img
               src={NotFound}
-              // width={500}
               className="bg-transparent m-auto rounded-lg"
               alt="Not Found"
             />
           </div>
         )}
+
       {!loading && !error && (
         <div className="pagination-container mt-auto">
           <ReactPaginate
@@ -89,7 +109,9 @@ function Feed({ selectedOption }) {
             pageCount={Math.ceil(
               posts.filter(
                 (post) =>
-                  !selectedOption || post.questionSubject === selectedOption
+                  !selectedOption ||
+                  post.questionSubject === selectedOption ||
+                  post.uid === uid
               ).length / postsPerPage
             )}
             marginPagesDisplayed={2}

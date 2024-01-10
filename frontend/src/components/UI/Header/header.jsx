@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 //thirdparty library
 import axios from "axios";
+import { motion } from "framer-motion";
 
 // import { RxAvatar } from "react-icons/rx";
 import { IoCloseOutline } from "react-icons/io5";
@@ -23,10 +24,12 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import SearchBar from "../../SearchBar";
 import { Link } from "react-router-dom";
+import ProfileLogo from "../../../assets/profile.svg";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
+  const [profileModal, setProfileModal] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const [question, setQuestion] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -147,6 +150,9 @@ function Header() {
   const openLogoutModal = () => {
     setLogoutModal(true);
   };
+  const openProfileModal = () => {
+    setProfileModal(true);
+  };
 
   const handleLogout = () => {
     signOut(auth)
@@ -182,9 +188,19 @@ function Header() {
                 <Button color="red">Upload Notes</Button>
               </Link>
             )} */}
+            <div
+              onClick={openProfileModal}
+              className="cursor-pointer shadow-sm rounded-full hover:shadow-2xl hover:bg-[#94C4FC]"
+            >
+              <img
+                src={ProfileLogo}
+                width={55}
+                className="rounded-full border border-transparent"
+              />
+            </div>
             <Button
               color="blue"
-              className="hover:bg-green-300"
+              className="hover:bg-green-300 bg-[#94C4FC]"
               onClick={() => setIsModalOpen(true)}
             >
               Add Question
@@ -334,6 +350,101 @@ function Header() {
                 </Button>
               </div>
             </div>
+          </Modal>
+          <Modal
+            open={profileModal}
+            closeIcon={Close}
+            classNames={{
+              modal: "logoutModal",
+              overlayAnimationIn: "customEnterOverlayAnimation",
+              overlayAnimationOut: "customLeaveOverlayAnimation",
+              modalAnimationIn: "customEnterModalAnimation",
+              modalAnimationOut: "customLeaveModalAnimation",
+            }}
+            animationDuration={400}
+            onClose={() => setProfileModal(false)}
+            closeOnEsc
+            center
+            closeOnOverlayClick={true}
+            styles={{
+              overlay: {
+                height: "auto",
+              },
+            }}
+          >
+            <motion.div
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+              }}
+              transition={{ duration: 0.3 }}
+              className="shadow-2xl p-8 rounded-lg border border-transparent bg-gradient-to-r from-[#94C4FC] to-[#03A9F5]"
+            >
+              <div className="flex items-center justify-center gap-3">
+                <motion.p
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1.2 }}
+                  className="text-2xl font-bold text-[#69418B]"
+                >
+                  Profile Details
+                </motion.p>
+                <motion.img
+                  initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20,
+                    duration: 0.7,
+                  }}
+                  whileHover={{ rotate: 10 }}
+                  src={user?.photo ? user?.photo : ProfileLogo}
+                  className="rounded-full border border-transparent cursor-pointer"
+                />
+              </div>
+              <>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 1.5, delay: 0.1 }}
+                  className="flex gap-2"
+                >
+                  <motion.h2 className="font-semibold text-[#69418B]">
+                    Name:
+                  </motion.h2>
+                  <motion.span className="font-bold text-[#FF3131]">
+                    {user?.userName}
+                  </motion.span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 1.6, delay: 0.2 }}
+                  className="flex gap-2"
+                >
+                  <motion.h2 className="font-semibold text-[#69418B]">
+                    Email:
+                  </motion.h2>
+                  <motion.span className="font-bold text-[#FF3131]">
+                    {user?.email}
+                  </motion.span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 1.7, delay: 0.3 }}
+                  className="flex gap-2"
+                >
+                  <motion.h2 className="font-semibold text-[#69418B]">
+                    {user?.role === "Admin" ? "Role:" : "Type:"}
+                  </motion.h2>
+                  <motion.span className="font-bold text-[#FF3131]">
+                    {user?.role === "Admin" ? user?.role : user?.type}
+                  </motion.span>
+                </motion.div>
+              </>
+            </motion.div>
           </Modal>
         </div>
       </div>
