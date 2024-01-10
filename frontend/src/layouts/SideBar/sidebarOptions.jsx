@@ -5,6 +5,7 @@ import "../../styles/SidebarOptions.css";
 import image from "../../assets/image.jpeg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Button } from "@material-tailwind/react";
 
 function SidebarOptions({ onSelectOption }) {
   const [options, setOptions] = useState([]);
@@ -30,14 +31,38 @@ function SidebarOptions({ onSelectOption }) {
   }, []);
 
   const handleOptionClick = (option) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setSelectedOption(option.name);
     onSelectOption(option.name);
     document.title = `Connect Students | ${option.name}`;
+  };
+  const handleMyPostsClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setSelectedOption("myPosts");
+    onSelectOption("myPosts");
+    document.title = "Connect Students | My Posts";
   };
 
   return (
     <>
       <ToastContainer />
+      <Button
+        onClick={handleMyPostsClick}
+        size="lg"
+        className={`sidebarOption ${
+          selectedOption === "myPosts"
+            ? "selected h-12 w-full ml-2 mb-2"
+            : "ml-2 h-12 w-full mb-2 bg-[#94C4FC]"
+        }`}
+      >
+        View my Posts
+      </Button>
+      <hr />
+      <div className="my-3">
+        <span className="ml-6 text-xl font-semibold text-[#69418B]">
+          Subjects
+        </span>
+      </div>
       <div className="flex flex-col gap-3">
         {options.map((option, index) => (
           <div

@@ -12,7 +12,7 @@ import {
 } from "react-icons/io5";
 import { CiChat2 } from "react-icons/ci";
 // import { FiMoreHorizontal } from "react-icons/fi";
-import { CiShare2 } from "react-icons/ci";
+// import { CiShare2 } from "react-icons/ci";
 import BrokenImg from "../../../assets/teacher.svg";
 import ReactHtmlParser from "html-react-parser";
 import ReactTimeAgo from "react-time-ago";
@@ -247,7 +247,11 @@ function Post({ post }) {
         <div className="post__body">
           <div className="post__question flex justify-between items-center">
             <p>{post?.questionName}</p>
-            <Button onClick={() => setIsModalOpen(true)} size="sm" className="">
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              size="sm"
+              className="hover:bg-green-400"
+            >
               Answer
             </Button>
             <Modal
@@ -448,19 +452,20 @@ function Post({ post }) {
               {user && (
                 <>
                   <div className="flex flex-row gap-4">
-                    {user.type === "teacher" && (
+                    {(user?.role === "Admin" || user?.uid === post?.uid) && (
                       <Button
                         onClick={() => setDeleteConfirmModal(true)}
-                        className="option-button"
+                        className="option-button hover:bg-red-500"
                         size="sm"
                       >
                         Delete
                       </Button>
                     )}
+
                     {user?.uid === post?.uid && (
                       <Button
                         onClick={handleEdit}
-                        className="option-button"
+                        className="option-button hover:bg-[#FF914D]"
                         size="sm"
                       >
                         Edit

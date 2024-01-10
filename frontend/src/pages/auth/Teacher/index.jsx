@@ -164,8 +164,7 @@ const TeacherDrawer = ({ open, onClose }) => {
             <div className="flex items-center justify-between">
               <Typography
                 variant="h5"
-                color="purple"
-                className="text-center w-full flex items-center justify-center gap-4"
+                className="text-center text-[#69418B] w-full flex items-center justify-center gap-4"
               >
                 <span className="text-2xl">Login</span>
                 <img src={Logo} />
@@ -207,7 +206,7 @@ const TeacherDrawer = ({ open, onClose }) => {
                   />
                   {showLoginPassword ? (
                     <FiEye
-                      className="absolute right-4 bottom-2 rounded text-xl text-purple-400 cursor-pointer"
+                      className="absolute right-4 bottom-2 rounded text-xl text-[#69418B] cursor-pointer"
                       onClick={() => setShowLoginPassword(false)}
                     />
                   ) : (
@@ -225,8 +224,7 @@ const TeacherDrawer = ({ open, onClose }) => {
                 )}
               </div>
               <Button
-                className="mt-6"
-                color="purple"
+                className="mt-6 bg-[#69418B]"
                 size="lg"
                 fullWidth
                 onClick={handleLogin}
@@ -234,15 +232,14 @@ const TeacherDrawer = ({ open, onClose }) => {
               >
                 {loadingLogin ? (
                   <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-orange-600"></div>
+                    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#FF914D]"></div>
                   </div>
                 ) : (
                   "Login"
                 )}
               </Button>
               <Button
-                className="mt-6"
-                color="orange"
+                className="mt-6 bg-[#FF914D]"
                 size="lg"
                 fullWidth
                 disabled={loadingRegister || loadingLogin}
@@ -250,7 +247,7 @@ const TeacherDrawer = ({ open, onClose }) => {
               >
                 {loadingRegister ? (
                   <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-purple-600"></div>
+                    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#69418B]"></div>
                   </div>
                 ) : (
                   "Register"
@@ -285,7 +282,7 @@ const TeacherDrawer = ({ open, onClose }) => {
                   onClick={() => handleChangeUI("login")}
                 />
 
-                <span className="text-orange-500 ml-4">Register</span>
+                <span className="text-[#FF914D] ml-4">Register</span>
                 <img src={Logo} className="-ml-7" />
 
                 <div />
@@ -369,15 +366,14 @@ const TeacherDrawer = ({ open, onClose }) => {
             </div>
             <Button
               type="submit"
-              className="mt-6"
+              className="mt-6 bg-[#FF914D]"
               size="lg"
-              color="orange"
               fullWidth
               disabled={loadingRegister}
             >
               {loadingRegister ? (
                 <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-purple-600"></div>
+                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#FF914D]"></div>
                 </div>
               ) : (
                 "Register"

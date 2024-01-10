@@ -91,16 +91,14 @@ function Login() {
           >
             <Button
               onClick={handleSubmit}
-              color="red"
-              className="btn-login hover:bg-green-400 capitalize"
+              className="btn-login bg-[#FF3131] hover:bg-green-400 capitalize"
               size="lg"
             >
               STUDENT LOGIN
             </Button>
             <Button
               onClick={openDrawer}
-              color="purple"
-              className="btn-login hover:bg-green-400 capitalize"
+              className="btn-login bg-[#69418B] hover:bg-green-400 capitalize"
               size="lg"
             >
               TEACHER LOGIN/REGISTRATION
@@ -109,9 +107,7 @@ function Login() {
         </motion.div>
       </motion.div>
 
-      {drawerOpen && (
-        <TeacherDrawer open={drawerOpen} onClose={closeDrawer} />
-      )}
+      {drawerOpen && <TeacherDrawer open={drawerOpen} onClose={closeDrawer} />}
     </div>
   );
 }
