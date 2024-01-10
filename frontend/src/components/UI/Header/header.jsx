@@ -182,7 +182,6 @@ function Header() {
                 <Button color="red">Upload Notes</Button>
               </Link>
             )} */}
-
             <Button
               color="blue"
               className="hover:bg-green-300"
@@ -190,12 +189,13 @@ function Header() {
             >
               Add Question
             </Button>
-            <SlLogout
+            <div
               onClick={openLogoutModal}
-              src={user?.photo}
-              size={25}
-              className="cursor-pointer hover:text-red-300"
-            />
+              className="flex items-center gap-2 cursor-pointer hover:text-red-300"
+            >
+              <SlLogout size={25} />
+              Logout
+            </div>
           </div>
           <Modal
             open={isModalOpen}
