@@ -18,6 +18,7 @@ import { IoArrowBack } from "react-icons/io5";
 import Logo from "../../../assets/newLogo.svg";
 const TeacherDrawer = ({ open, onClose }) => {
   const [showAuth, setShowAuth] = useState("login");
+  const [showLoginPassword, setShowLoginPassword] = useState("");
   const [showPassword, setShowPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState("");
   const [loadingLogin, setLoadingLogin] = useState(false);
@@ -204,16 +205,16 @@ const TeacherDrawer = ({ open, onClose }) => {
                     onChange={handleInputChange}
                     error={errors.password}
                   />
-                  {showPassword ? (
-                    <FiEyeOff
+                  {showLoginPassword ? (
+                    <FiEye
                       className="absolute right-4 bottom-2 rounded text-xl text-purple-400 cursor-pointer"
-                      onClick={() => setShowPassword(false)}
+                      onClick={() => setShowLoginPassword(false)}
                     />
                   ) : (
-                    <FiEye
+                    <FiEyeOff
                       color="gray"
                       className="absolute right-4 bottom-2  rounded text-xl cursor-pointer"
-                      onClick={() => setShowPassword(true)}
+                      onClick={() => setShowLoginPassword(true)}
                     />
                   )}
                 </div>
