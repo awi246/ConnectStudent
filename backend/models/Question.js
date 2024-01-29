@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const QuestionSchema = new mongoose.Schema({
   questionName: String,
-  questionUrl: String,
+  questionImage: String,
   questionSubject: String,
-  userPhoto:String,
-  userType:String,
-  uid:String,
+  userPhoto: String,
+  userType: String,
+  uid: String,
   postedBy: {
     type: String,
     required: true,

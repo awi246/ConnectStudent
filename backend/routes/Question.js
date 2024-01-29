@@ -2,8 +2,21 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const path = require("path");
+const multer = require("multer");
 const questionDB = require("../models/Question");
 const Filter = require("bad-words");
+const sharp = require("sharp");
+
+const multerStorage = multer.memoryStorage();
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new Error("Not an image! Please upload only images."));
+  }
+};
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 
 const profanityWordsFilePath = path.join(__dirname, "profanityWords.json");
 const customProfanityWords = JSON.parse(
@@ -16,7 +29,7 @@ customProfanityWords.forEach((wordObject) => {
   profanityFilter.addWords(value);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single("questionImage"), async (req, res) => {
   if (
     profanityFilter.isProfane(req.body.questionName.toLowerCase()) ||
     profanityFilter.isProfane(req.body.questionSubject.toLowerCase())
@@ -26,39 +39,40 @@ router.post("/", async (req, res) => {
       message: "Cannot add a question with offensive words",
     });
   }
-
   try {
-    await questionDB
-      .create({
-        questionName: req.body.questionName,
-        questionSubject: req.body.questionSubject,
-        questionUrl: req.body.questionUrl,
-        uid: req.body.uid,
-        postedBy: req.body.postedBy,
-        createdAt: req.body.createdAt,
-        userType: req.body.userType,
-        userPhoto: req.body.userPhoto,
-      })
-      .then(() => {
-        res.status(201).send({
-          status: true,
-          message: "Question added successfully",
-        });
-      })
-      .catch((err) => {
-        res.status(400).send({
-          status: false,
-          message: "Bad format",
-        });
-      });
+    const originalQuestionImageName = req.file.originalname.split(".")[0];
+    const questionImageName = `question-${originalQuestionImageName}-${Date.now()}.jpeg`;
+
+    await sharp(req.file.buffer)
+      .toFormat("jpeg")
+      .jpeg({ quality: 90 })
+      .toFile(
+        path.join(__dirname, `../img/questionImages/${questionImageName}`)
+      );
+
+    await questionDB.create({
+      questionName: req.body.questionName,
+      questionSubject: req.body.questionSubject,
+      questionImage: questionImageName,
+      uid: req.body.uid,
+      postedBy: req.body.postedBy,
+      createdAt: req.body.createdAt,
+      userType: req.body.userType,
+      userPhoto: req.body.userPhoto,
+    });
+
+    res.status(201).send({
+      status: true,
+      message: "Question added successfully",
+    });
   } catch (e) {
+    console.log(e);
     res.status(500).send({
       status: false,
       message: "Error while adding the question",
     });
   }
 });
-
 router.get("/", async (req, res) => {
   try {
     await questionDB
@@ -92,7 +106,8 @@ router.get("/", async (req, res) => {
 
 router.put("/:questionId", async (req, res) => {
   const { questionId } = req.params;
-  const { questionName, questionUrl, questionSubject } = req.body;
+  const { questionName, questionUrl, questionSubject, questionImage } =
+    req.body;
 
   try {
     if (
@@ -111,6 +126,7 @@ router.put("/:questionId", async (req, res) => {
         $set: {
           questionName,
           questionUrl,
+          questionImage,
           questionSubject,
         },
       },

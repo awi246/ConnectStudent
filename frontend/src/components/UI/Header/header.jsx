@@ -39,6 +39,7 @@ function Header() {
   const [subjects, setSubjects] = useState([]);
   const [scrolling, setScrolling] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  // console.log("imageFile: ", imageFile);
   const [imagePreview, setImagePreview] = useState(null);
 
   const resetForm = () => {
@@ -112,22 +113,24 @@ function Header() {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     };
 
-    const body = {
-      questionName: question,
-      questionUrl: inputUrl,
-      questionSubject: selectedSubject,
-      userType: user?.type,
-      userPhoto: user?.photo,
-      uid: user?.uid,
-      postedBy: user?.userName,
-      createdAt: new Date().toLocaleString("ne-NP", {
+    const body = new FormData();
+    body.append("questionName", question);
+    body.append("questionSubject", selectedSubject);
+    body.append("questionImage", imageFile);
+    body.append("userType", user?.type);
+    body.append("userPhoto", user?.photo);
+    body.append("uid", user?.uid);
+    body.append("postedBy", user?.userName);
+    body.append(
+      "createdAt",
+      new Date().toLocaleString("ne-NP", {
         timeZone: "Asia/Kathmandu",
-      }),
-    };
+      })
+    );
 
     try {
       const response = await axios.post(
@@ -251,7 +254,7 @@ function Header() {
                 </select>
               </div>
 
-              <label htmlFor="imageUpload" className="font-medium ">
+              <label htmlFor="question" className="font-medium ">
                 Question<span className="required text-red-500">*</span>:
               </label>
               <textarea
@@ -267,13 +270,13 @@ function Header() {
                   flexDirection: "column",
                 }}
               >
-                <label htmlFor="imageUpload" className="font-medium mt-4">
+                <label htmlFor="questionImage" className="font-medium mt-4">
                   Upload Question Photo(optional):
                 </label>
                 <input
                   type="file"
                   accept="image"
-                  name="imageUpload"
+                  name="questionImage"
                   onChange={handleImageChange}
                   className="p-3 mb-2 mt-4 shadow-lg border rounded-md w-full"
                   placeholder="Optional: Include a link that gives context or the image"

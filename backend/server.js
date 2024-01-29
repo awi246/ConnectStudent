@@ -1,4 +1,5 @@
 const express = require("express");
+const appRootPath = require("app-root-path");
 const cors = require("cors");
 const path = require("path");
 const app = express();
@@ -23,6 +24,8 @@ app.use("/api", router);
 
 // Serve uploads directory for local development
 app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
+
+app.use(express.static(appRootPath + "/"));
 
 // Serve the frontend code directly for local development
 app.use(express.static(path.join(__dirname, "/../frontend")));

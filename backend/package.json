@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@duckodas/badwords": "^1.1.2",
+    "app-root-path": "^3.1.0",
     "bad-words": "^3.0.4",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
@@ -21,6 +22,7 @@
     "mongoose": "^8.0.1",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
+    "sharp": "^0.33.2",
     "uuid": "^9.0.1"
   }
 }

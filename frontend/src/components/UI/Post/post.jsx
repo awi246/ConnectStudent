@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
@@ -34,6 +35,14 @@ function LastSeen({ date }) {
 
 function Post({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imageModal, setImageModal] = useState(false);
+  const openImageModal = () => {
+    setImageModal(true);
+  };
+
+  const closeImageModal = () => {
+    setImageModal(false);
+  };
   const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const Close = <IoCloseOutline className="text-2xl" />;
@@ -156,10 +165,9 @@ function Post({ post }) {
     if (post) {
       setQuestion(post.questionName);
       setSelectedSubject(post.questionSubject);
-      setInputUrl(post.questionUrl);
+      setInputUrl(imgURL + post.questionImage);
     }
   };
-
   const handleDelete = async () => {
     setDeleteConfirmModal(false);
     try {
@@ -229,6 +237,9 @@ function Post({ post }) {
       const bVotes = b?.votes?.upvote ?? 0 - b?.votes?.downvote ?? 0;
       return bVotes - aVotes;
     }) || [];
+
+  const imgURL = "http://localhost:90/img/questionImages/";
+
   return (
     <>
       <ToastContainer autoClose={2800} />
@@ -280,6 +291,12 @@ function Post({ post }) {
                     {new Date(post?.createdAt).toLocaleString()}
                   </span>
                 </p>
+                {post && post.questionImage && (
+                  <img
+                    src={post.questionImage && imgURL + post.questionImage}
+                    alt="url"
+                  />
+                )}
               </div>
               <div className="modal__answer">
                 <ReactQuill
@@ -361,13 +378,15 @@ function Post({ post }) {
                     type="file"
                     accept="image"
                     name="imageUpload"
-                    // onChange={handleImageChange}
+                    onChange={(e) =>
+                      setInputUrl(URL.createObjectURL(e.target.files[0]))
+                    }
                     className="p-3 mb-2 mt-4 shadow-lg border rounded-md w-full"
                     placeholder="Optional: Include a link that gives context or the image"
                   />
-                  {imagePreview && (
+                  {inputUrl && (
                     <img
-                      src={imagePreview}
+                      src={inputUrl}
                       alt="Image Preview"
                       className="mt-2 rounded-md shadow-lg"
                       style={{ maxWidth: "100%" }}
@@ -401,9 +420,38 @@ function Post({ post }) {
               </div>
             </Modal>
           </div>
-          {post && post.questionUrl !== "" && (
-            <img src={post.questionUrl} alt="url" />
+          {post && post.questionImage && (
+            <img
+              src={post.questionImage && imgURL + post.questionImage}
+              alt="url"
+              style={{ maxWidth: "100%" }}
+              onClick={openImageModal}
+            />
           )}
+          <Modal
+            open={imageModal}
+            closeIcon={Close}
+            classNames={{
+              modal: "addQuestionModal",
+              modalAnimationIn: "customEnterModalAnimation",
+              modalAnimationOut: "customLeaveModalAnimation",
+            }}
+            animationDuration={800}
+            onClose={() => setImageModal(false)}
+            center
+            closeOnOverlayClick={false}
+            styles={{
+              overlay: {
+                height: "auto",
+              },
+            }}
+          >
+            <img
+              src={post.questionImage && imgURL + post.questionImage}
+              alt="url"
+              className="w-full"
+            />
+          </Modal>
         </div>
         <div className="post__footer">
           <div className="flex items-center gap-4 text-2xl w-full justify-between mt-6">
