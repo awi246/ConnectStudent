@@ -4,6 +4,7 @@ import "../../../styles/Box.css";
 
 function QuoraBox() {
   const user = useSelector(selectUser);
+  console.log("user", user);
   return (
     <div className="Box transform cursor-pointer hover:bg-blue-gray-50 shadow-sm hover:shadow-lg hover:scale-105 transition-transform duration-300">
       <div className="Box__info">
@@ -25,7 +26,17 @@ function QuoraBox() {
             <span className="text-red-500">
               {user?.userName ? user?.userName : "Teacher"}
             </span>
-            , Add your question or go through the answer effortlessly!!!
+            {user?.type === "teacher" && (
+              <span>
+                , Add your question or go through the answer effortlessly!!!
+              </span>
+            )}
+            {user?.type === "student" && (
+              <span>
+                ,welcome to Connect Student. You can post your questions and
+                have your queries solved easily!!!
+              </span>
+            )}
           </h5>
         )}
       </div>
