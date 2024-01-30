@@ -3,6 +3,7 @@ const router = express.Router();
 
 const voteDB = require("../models/Vote");
 const questionDB = require("../models/Question");
+
 router.post("/upvote", async (req, res) => {
   try {
     const { questionId, user } = req.body;
@@ -19,16 +20,39 @@ router.post("/upvote", async (req, res) => {
     });
 
     if (existingVote) {
-      return res.status(400).send({
-        status: false,
-        message: "You have already voted on this question.",
-      });
+      if (existingVote.voteType === "upvote") {
+        await voteDB.deleteOne({
+          questionId: questionId,
+          user: user,
+          voteType: "upvote",
+        });
+        await questionDB.findByIdAndUpdate(questionId, {
+          $inc: { "votes.upvote": -1 },
+        });
+
+        return res.status(200).send({
+          status: true,
+          message: "Upvote removed successfully",
+        });
+      } else {
+        existingVote.voteType = "upvote";
+        await existingVote.save();
+        await questionDB.findByIdAndUpdate(questionId, {
+          $inc: { "votes.upvote": 1 },
+        });
+
+        return res.status(200).send({
+          status: true,
+          message: "Upvote added successfully",
+        });
+      }
     }
     await voteDB.create({
       voteType: "upvote",
       questionId: questionId,
       user: user,
     });
+
     await questionDB.findByIdAndUpdate(questionId, {
       $inc: { "votes.upvote": 1 },
     });
@@ -38,6 +62,7 @@ router.post("/upvote", async (req, res) => {
       message: "Upvote added successfully",
     });
   } catch (error) {
+    console.error(error);
     res.status(500).send({
       status: false,
       message: "Error while processing upvote",
@@ -48,7 +73,6 @@ router.post("/upvote", async (req, res) => {
 router.post("/downvote", async (req, res) => {
   try {
     const { questionId, user } = req.body;
-
     if (!questionId || !user) {
       return res.status(400).send({
         status: false,
@@ -63,21 +87,39 @@ router.post("/downvote", async (req, res) => {
 
     if (existingVote) {
       if (existingVote.voteType === "downvote") {
-        return res.status(400).send({
-          status: false,
-          message: "You have already downvoted on this question.",
+        await voteDB.deleteOne({
+          questionId: questionId,
+          user: user,
+          voteType: "downvote",
+        });
+        await questionDB.findByIdAndUpdate(questionId, {
+          $inc: { "votes.downvote": -1 },
+        });
+
+        return res.status(200).send({
+          status: true,
+          message: "Downvote removed successfully",
+        });
+      } else {
+        existingVote.voteType = "downvote";
+        await existingVote.save();
+
+        await questionDB.findByIdAndUpdate(questionId, {
+          $inc: { "votes.downvote": 1 },
+        });
+
+        return res.status(200).send({
+          status: true,
+          message: "Downvote added successfully",
         });
       }
-
-      existingVote.voteType = "downvote";
-      await existingVote.save();
-    } else {
-      await voteDB.create({
-        voteType: "downvote",
-        questionId: questionId,
-        user: user,
-      });
     }
+
+    await voteDB.create({
+      voteType: "downvote",
+      questionId: questionId,
+      user: user,
+    });
 
     await questionDB.findByIdAndUpdate(questionId, {
       $inc: { "votes.downvote": 1 },
@@ -88,6 +130,7 @@ router.post("/downvote", async (req, res) => {
       message: "Downvote added successfully",
     });
   } catch (error) {
+    console.error(error);
     res.status(500).send({
       status: false,
       message: "Error while processing downvote",
@@ -136,6 +179,5 @@ router.get("/check", async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;

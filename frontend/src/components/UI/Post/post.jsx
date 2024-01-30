@@ -138,6 +138,13 @@ function Post({ post }) {
           },
         });
         setVoted(null);
+
+        if (voteType === "upvote") {
+          post.votes.upvote--;
+        } else if (voteType === "downvote") {
+          post.votes.downvote--;
+        }
+        window.location.href = "/";
         toast.success("Vote removed successfully");
       } else {
         const voteData = {
@@ -145,12 +152,17 @@ function Post({ post }) {
           questionId: post?._id,
           user: user,
         };
+
         const response = await axios.post(url, voteData);
         setVoted(voteType);
+
+        if (voteType === "upvote") {
+          post.votes.upvote++;
+        } else if (voteType === "downvote") {
+          post.votes.downvote++;
+        }
+        window.location.href = "/";
         toast.success(response?.data?.message);
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 3000);
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -384,14 +396,15 @@ function Post({ post }) {
                     className="p-3 mb-2 mt-4 shadow-lg border rounded-md w-full"
                     placeholder="Optional: Include a link that gives context or the image"
                   />
-                  {inputUrl && (
-                    <img
-                      src={inputUrl}
-                      alt="Image Preview"
-                      className="mt-2 rounded-md shadow-lg"
-                      style={{ maxWidth: "100%" }}
-                    />
-                  )}
+                  {inputUrl !== null ||
+                    (inputUrl !== undefined && (
+                      <img
+                        src={inputUrl}
+                        alt="Image Preview"
+                        className="mt-2 rounded-md shadow-lg"
+                        style={{ maxWidth: "100%" }}
+                      />
+                    ))}
                 </div>
                 <p className="text-red-500 text-sm">
                   Note: * fields are marked as required

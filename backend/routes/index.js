@@ -8,6 +8,7 @@ const subjectRouter = require("./Subject");
 const teacherRegisterRouter = require("./TeacherRegister");
 const teacherLoginRouter = require("./TeacherLogin");
 const notesRouter = require("./Notes");
+const clusteringRouter = require("./clustering");
 
 router.get("/", (req, res) => {
   res.send("This API is reserved for connectStudents");
@@ -20,5 +21,6 @@ router.use("/subjects", subjectRouter);
 router.use("/notes", notesRouter);
 router.use("/teacherRegisters", teacherRegisterRouter);
 router.use("/teacherLogin", teacherLoginRouter);
+router.use("/clustering", clusteringRouter);
 
 module.exports = router;
